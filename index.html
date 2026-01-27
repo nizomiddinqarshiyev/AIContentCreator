@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trend Content Creator - Pro</title>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+            --border: #e0e0e0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .credits-badge {
+            background: var(--warning);
+            color: var(--dark);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 24px;
+        }
+        
+        .sidebar-section h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-card {
+            background: var(--light);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        /* Main Content */
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .page-header {
+            margin-bottom: 32px;
+        }
+        
+        .page-header h1 {
+            font-size: 32px;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+        
+        .page-header p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            color: #666;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-outline {
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .btn-block {
+            width: 100%;
+        }
+        
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .upload-area.dragover {
+            border-color: var(--primary);
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        /* History Cards */
+        .history-grid {
+            display: grid;
+            gap: 16px;
+        }
+        
+        .history-card {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            gap: 16px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .history-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .history-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .history-content {
+            flex: 1;
+        }
+        
+        .history-meta {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .history-text {
+            color: var(--dark);
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .history-tags {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .tag {
+            background: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--primary);
+        }
+        
+        /* Result Card */
+        .result-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 32px;
+            border-radius: 16px;
+            margin-top: 24px;
+            display: none;
+        }
+        
+        .result-card.show {
+            display: block;
+            animation: slideIn 0.4s;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .result-image {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .result-content {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+            line-height: 1.8;
+            color: var(--dark);
+        }
+        
+        .result-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+        
+        .loading.show {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid var(--light);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 12px;
+            z-index: 2000;
+        }
+        
+        .toast.show {
+            display: flex;
+            animation: slideUp 0.3s;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .toast-success {
+            border-left: 4px solid var(--success);
+        }
+        
+        .toast-error {
+            border-left: 4px solid var(--danger);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 32px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            animation: scaleIn 0.3s;
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .modal-header {
+            margin-bottom: 24px;
+        }
+        
+        .modal-header h2 {
+            color: var(--dark);
+        }
+        
+        .modal-close {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .main-content {
+                padding: 24px;
+            }
+            
+            .result-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🚀 AI Content Pro</div>
+            <div class="nav-menu">
+                <a href="#" class="nav-link">Dashboard</a>
+                <a href="#" class="nav-link">History</a>
+                <a href="#" class="nav-link">Pricing</a>
+            </div>
+            <div class="user-menu">
+                <div class="credits-badge" id="creditsDisplay">100 Credits</div>
+                <div class="user-avatar" onclick="showProfileModal()">JD</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="grid-layout">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3>Statistics</h3>
+                    <div class="stat-card">
+                        <div class="stat-label">Posts Created</div>
+                        <div class="stat-value" id="totalPosts">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Credits Used</div>
+                        <div class="stat-value" id="creditsUsed">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Success Rate</div>
+                        <div class="stat-value" id="successRate">100%</div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <button class="btn btn-primary btn-block" onclick="showUpgradeModal()">
+                        ⭐ Upgrade to Pro
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="page-header">
+                    <h1>AI Content Generator</h1>
+                    <p>Create viral social media content from trending topics</p>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('generate')">Generate</button>
+                    <button class="tab" onclick="switchTab('history')">History</button>
+                    <button class="tab" onclick="switchTab('templates')">Templates</button>
+                    <button class="tab" onclick="switchTab('schedule')">Schedule</button>
+                </div>
+
+                <!-- Generate Tab -->
+                <div id="generateTab" class="tab-content active">
+                    <form id="generateForm">
+                        <!-- Step 1: Country & Trends -->
+                        <div class="form-group">
+                            <label>1. Select Country & Fetch Trends</label>
+                            <div class="grid-2">
+                                <select id="country">
+                                    <option value="US">🇺🇸 United States</option>
+                                    <option value="GB">🇬🇧 United Kingdom</option>
+                                    <option value="UZ">🇺🇿 Uzbekistan</option>
+                                    <option value="RU">🇷🇺 Russia</option>
+                                    <option value="TR">🇹🇷 Turkey</option>
+                                </select>
+                                <button type="button" class="btn btn-primary" onclick="fetchTrends()">
+                                    🔍 Fetch Trends
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Select Trend -->
+                        <div class="form-group">
+                            <label>2. Select Trending Topic</label>
+                            <div class="grid-2">
+                                <div>
+                                    <label style="font-size: 12px; color: #999; margin-bottom: 4px;">Or Select from Fetched</label>
+                                    <select id="trend">
+                                        <option value="">First, fetch trends...</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; color: #999; margin-bottom: 4px;">Or Enter Manually</label>
+                                    <input type="text" id="manualTrend" placeholder="Type your topic here...">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Platform & Language -->
+                        <div class="form-group">
+                            <label>3. Content Settings</label>
+                            <div class="grid-2">
+                                <div>
+                                    <label>Platform</label>
+                                    <select id="platform">
+                                        <option value="instagram">📸 Instagram</option>
+                                        <option value="telegram">✈️ Telegram</option>
+                                        <option value="twitter">🐦 Twitter</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Language</label>
+                                    <select id="language">
+                                        <option value="en">English</option>
+                                        <option value="uz">O'zbek</option>
+                                        <option value="ru">Русский</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Style -->
+                        <div class="form-group">
+                            <label>4. Content Style</label>
+                            <select id="style">
+                                <option value="creative">🎨 Creative</option>
+                                <option value="professional">💼 Professional</option>
+                                <option value="viral">🔥 Viral</option>
+                                <option value="educational">📚 Educational</option>
+                            </select>
+                        </div>
+
+                        <!-- Generate Button -->
+                        <button type="submit" class="btn btn-primary btn-block">
+                            ✨ Generate Content (1 Credit)
+                        </button>
+                    </form>
+
+                    <!-- Loading -->
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <p>AI is creating your content...</p>
+                    </div>
+
+                    <!-- Result -->
+                    <div class="result-card" id="resultCard">
+                        <div class="result-header">
+                            <h3>📝 Generated Content</h3>
+                            <span id="resultTimestamp"></span>
+                        </div>
+                        <img id="resultImage" class="result-image" style="display:none;">
+                        <div class="result-content" id="resultContent"></div>
+                        <div class="result-actions">
+                            <button class="btn btn-success" onclick="copyContent()">📋 Copy</button>
+                            <button class="btn btn-outline" onclick="downloadImage()">📥 Download</button>
+                            <button class="btn btn-outline" onclick="saveToHistory()">💾 Save</button>
+                            <button class="btn btn-outline" onclick="schedulePost()">⏰ Schedule</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Tab -->
+                <div id="historyTab" class="tab-content">
+                    <div class="history-grid" id="historyGrid">
+                        <!-- History items will be loaded here -->
+                        <p style="text-align:center; color:#999; padding:40px;">No history yet. Generate your first post!</p>
+                    </div>
+                </div>
+
+                <!-- Templates Tab -->
+                <div id="templatesTab" class="tab-content">
+                    <div class="upload-area" onclick="document.getElementById('templateUpload').click()">
+                        <div class="upload-icon">📤</div>
+                        <h3>Upload Custom Template</h3>
+                        <p>Drop your image template here or click to browse</p>
+                        <input type="file" id="templateUpload" accept="image/*" style="display:none;" onchange="handleTemplateUpload(event)">
+                    </div>
+                </div>
+
+                <!-- Schedule Tab -->
+                <div id="scheduleTab" class="tab-content">
+                    <h3 style="margin-bottom:20px;">Scheduled Posts</h3>
+                    <div id="scheduledPosts">
+                        <p style="text-align:center; color:#999; padding:40px;">No scheduled posts yet</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('profileModal')">&times;</span>
+            <div class="modal-header">
+                <h2>Profile Settings</h2>
+            </div>
+            <button class="btn btn-primary btn-block" onclick="logout()">🚪 Logout</button>
+        </div>
+    </div>
+
+    <div class="modal" id="upgradeModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('upgradeModal')">&times;</span>
+            <div class="modal-header">
+                <h2>Upgrade to Pro</h2>
+            </div>
+            <p>Get unlimited credits and advanced features</p>
+            <button class="btn btn-primary btn-block" onclick="upgradeToPro()">💳 Subscribe - $9.99/mo</button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        // Global state
+        let currentUser = { credits: 100, posts: 0 };
+        let currentImageUrl = '';
+        let currentContent = '';
+        let history = [];
+
+        // Initialize
+        document.getElementById('generateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await generateContent();
+        });
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            if (tabName === 'history') loadHistory();
+        }
+
+        // Fetch trends
+        async function fetchTrends() {
+            const country = document.getElementById('country').value;
+            const trendSelect = document.getElementById('trend');
+            
+            trendSelect.innerHTML = '<option value="">Loading...</option>';
+            
+            try {
+                const res = await fetch('/api/trends', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ country })
+                });
+                
+                const data = await res.json();
+                trendSelect.innerHTML = data.trends.map(t => 
+                    `<option value="${t}">${t}</option>`
+                ).join('');
+                
+                showToast('Trends loaded successfully!', 'success');
+            } catch (err) {
+                showToast('Failed to load trends', 'error');
+                trendSelect.innerHTML = '<option value="">Error</option>';
+            }
+        }
+
+        // Generate content
+        async function generateContent() {
+            const selectedTrend = document.getElementById('trend').value;
+            const manualTrend = document.getElementById('manualTrend').value;
+            const trend = manualTrend.trim() || selectedTrend;
+            
+            if (!trend) {
+                showToast('Please select or enter a trend', 'error');
+                return;
+            }
+            
+            if (currentUser.credits < 1) {
+                showUpgradeModal();
+                return;
+            }
+            
+            const loading = document.getElementById('loading');
+            const resultCard = document.getElementById('resultCard');
+            
+            loading.classList.add('show');
+            resultCard.classList.remove('show');
+            
+            try {
+                const res = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        topic: trend,
+                        platform: document.getElementById('platform').value,
+                        language: document.getElementById('language').value,
+                        style: document.getElementById('style').value
+                    })
+                });
+                
+                const data = await res.json();
+                
+                // Update UI
+                document.getElementById('resultContent').textContent = data.content;
+                currentContent = data.content;
+                
+                const img = document.getElementById('resultImage');
+                if (data.image_url) {
+                    img.src = data.image_url;
+                    img.style.display = 'block';
+                    currentImageUrl = data.image_url;
+                    console.log('Image URL:', currentImageUrl);
+                }
+                
+                document.getElementById('resultTimestamp').textContent = new Date().toLocaleString();
+                resultCard.classList.add('show');
+                
+                // Update stats
+                currentUser.credits -= 1;
+                currentUser.posts += 1;
+                updateStats();
+                
+                showToast('Content generated successfully!', 'success');
+                
+                // Analytics
+                gtag('event', 'generate_content', {
+                    platform: data.platform,
+                    language: data.language
+                });
+                
+            } catch (err) {
+                showToast('Failed to generate content', 'error');
+            } finally {
+                loading.classList.remove('show');
+            }
+        }
+
+        // Copy content
+        function copyContent() {
+            navigator.clipboard.writeText(currentContent);
+            showToast('Content copied!', 'success');
+        }
+
+        // Download image
+        function downloadImage() {
+            if (!currentImageUrl) return;
+            const a = document.createElement('a');
+            a.href = currentImageUrl;
+            a.download = 'ai-content.jpg';
+            a.click();
+            showToast('Image download started', 'success');
+        }
+
+        // Save to history
+        function saveToHistory() {
+            history.push({
+                content: currentContent,
+                image: currentImageUrl,
+                timestamp: new Date(),
+                platform: document.getElementById('platform').value
+            });
+            showToast('Saved to history!', 'success');
+        }
+
+        // Load history
+        function loadHistory() {
+            const grid = document.getElementById('historyGrid');
+            if (history.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; color:#999; padding:40px;">No history yet</p>';
+                return;
+            }
+            
+            grid.innerHTML = history.map((item, i) => `
+                <div class="history-card">
+                    <img src="${item.image}" class="history-image">
+                    <div class="history-content">
+                        <div class="history-meta">${item.timestamp.toLocaleString()}</div>
+                        <div class="history-text">${item.content.substring(0, 100)}...</div>
+                        <div class="history-tags">
+                            <span class="tag">${item.platform}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Schedule post
+        function schedulePost() {
+            showToast('Scheduling feature coming soon!', 'success');
+        }
+
+        // Template upload
+        function handleTemplateUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                showToast('Template uploaded!', 'success');
+            }
+        }
+
+        // Update stats
+        function updateStats() {
+            document.getElementById('creditsDisplay').textContent = `${currentUser.credits} Credits`;
+            document.getElementById('totalPosts').textContent = currentUser.posts;
+            document.getElementById('creditsUsed').textContent = 100 - currentUser.credits;
+        }
+
+        // Modal functions
+        function showProfileModal() {
+            document.getElementById('profileModal').classList.add('show');
+        }
+
+        function showUpgradeModal() {
+            document.getElementById('upgradeModal').classList.add('show');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('show');
+        }
+
+        function upgradeToPro() {
+            showToast}
+('Upgrade feature coming soon!', 'success');
+        
+
+        function logout() {
+            showToast('Logout feature coming soon!', 'success');
+        }
+
+        // Toast notifications
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.className = 'toast show';
+            if (type === 'success') {
+                toast.classList.add('toast-success');
+            } else if (type === 'error') {
+                toast.classList.add('toast-error');
+            }
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 3000);
+        }
+
+        // Initial stats update
+        updateStats();
+    </script>
