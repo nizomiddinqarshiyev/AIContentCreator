@@ -91,7 +91,7 @@ class GeneratedPost(Base):
     image_prompt = Column(Text)
     
     # Metadata
-    metadata = Column(JSON)
+    meta_data = Column(JSON)
     character_count = Column(Integer)
     hashtag_count = Column(Integer)
     
@@ -123,7 +123,7 @@ class GeneratedPost(Base):
             "language": self.language,
             "style": self.style,
             "image_url": self.image_url,
-            "metadata": self.metadata,
+            "meta_data": self.meta_data,
             "created_at": self.created_at.isoformat() if self.created_at else None
         }
 
@@ -302,7 +302,7 @@ class AnalyticsEvent(Base):
     session_id = Column(String(100))
     
     # Metadata
-    metadata = Column(JSON)
+    meta_data = Column(JSON)
     
     # Timestamp
     created_at = Column(DateTime, default=datetime.utcnow, index=True)

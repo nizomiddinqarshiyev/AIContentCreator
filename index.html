@@ -1,492 +1,487 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Trend Content Creator - Pro</title>
-    
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'GA_MEASUREMENT_ID');
-    </script>
-    
+    <title>CONTENT.AI - Premium Content Generator</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         :root {
-            --primary: #667eea;
-            --secondary: #764ba2;
-            --success: #28a745;
-            --danger: #dc3545;
-            --warning: #ffc107;
-            --dark: #2c3e50;
-            --light: #f8f9fa;
-            --border: #e0e0e0;
+            --bg-dark: #05060b;
+            --bg-card: rgba(13, 17, 28, 0.7);
+            --primary: #9d50bb;
+            /* Vibrant Purple */
+            --primary-glow: rgba(157, 80, 187, 0.3);
+            --secondary: #6e48aa;
+            /* Deep Indigo */
+            --accent-neon: #ccff00;
+            /* Toxic Lime */
+            --accent-glow: rgba(204, 255, 0, 0.3);
+            --accent-rose: #f43f5e;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.05);
+            --glass: rgba(255, 255, 255, 0.02);
+            --speed: 0.3s;
         }
-        
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
         }
-        
-        /* Navigation */
-        .navbar {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            padding: 1rem 0;
-            position: sticky;
+
+        /* Animated Mesh Background */
+        .mesh-bg {
+            position: fixed;
             top: 0;
-            z-index: 1000;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(157, 80, 187, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(110, 72, 170, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(5, 6, 11, 1) 0%, transparent 100%),
+                #05060b;
+            overflow: hidden;
         }
-        
-        .nav-container {
+
+        .mesh-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.5;
+        }
+
+        .nebula {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 10% 90%, rgba(157, 80, 187, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 10%, rgba(110, 72, 170, 0.1) 0%, transparent 50%);
+            filter: blur(100px);
+            animation: nebulaFloat 30s ease-in-out infinite alternate;
+        }
+
+        @keyframes nebulaFloat {
+            0% {
+                transform: scale(1) translate(0, 0);
+            }
+
+            100% {
+                transform: scale(1.2) translate(5%, 5%);
+            }
+        }
+
+        @keyframes backgroundFloat {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.1) rotate(2deg);
+            }
+        }
+
+        h1,
+        h2,
+        h3,
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Glassmorphism Components */
+        .glass {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        /* Floating Navigation */
+        .navbar {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            height: 72px;
+            z-index: 1000;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            transition: all var(--speed) cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
+        .navbar.scrolled {
+            top: 12px;
+            width: 95%;
+            height: 64px;
+            background: rgba(10, 11, 16, 0.8);
+        }
+
         .logo {
             font-size: 24px;
-            font-weight: bold;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
-        .nav-menu {
+
+        .nav-links {
             display: flex;
-            gap: 20px;
-            align-items: center;
+            gap: 32px;
+            list-style: none;
         }
-        
+
         .nav-link {
-            color: var(--dark);
+            color: var(--text-dim);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            font-size: 15px;
+            transition: color var(--speed);
+            position: relative;
         }
-        
-        .nav-link:hover {
-            color: var(--primary);
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--text-main);
         }
-        
-        .user-menu {
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 140px auto 60px;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 260px 1fr 340px;
+            gap: 24px;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .side-item {
             display: flex;
             align-items: center;
             gap: 12px;
+            padding: 14px 20px;
+            border-radius: 16px;
+            color: var(--text-dim);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all var(--speed);
+            cursor: pointer;
         }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
+
+        .side-item:hover,
+        .side-item.active {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--primary);
+        }
+
+        .workspace {
+            padding: 32px;
+            min-height: 600px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            transition: all var(--speed);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
+            gap: 10px;
+            font-family: 'Outfit', sans-serif;
         }
-        
-        .credits-badge {
-            background: var(--warning);
-            color: var(--dark);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        
-        /* Main Container */
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 30px;
-        }
-        
-        /* Sidebar */
-        .sidebar {
-            background: white;
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            height: fit-content;
-            position: sticky;
-            top: 100px;
-        }
-        
-        .sidebar-section {
-            margin-bottom: 24px;
-        }
-        
-        .sidebar-section h3 {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 12px;
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px var(--primary-glow);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.1em;
         }
-        
-        .stat-card {
-            background: var(--light);
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 12px;
+
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 25px var(--primary-glow);
+            filter: brightness(1.1);
         }
-        
-        .stat-label {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 4px;
-        }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        /* Main Content */
-        .main-content {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-        
-        .page-header {
-            margin-bottom: 32px;
-        }
-        
-        .page-header h1 {
-            font-size: 32px;
-            color: var(--dark);
-            margin-bottom: 8px;
-        }
-        
-        .page-header p {
-            color: #666;
-            font-size: 16px;
-        }
-        
-        /* Tabs */
-        .tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 32px;
-            border-bottom: 2px solid var(--border);
-        }
-        
-        .tab {
+
+        .btn-neon {
+            background: var(--accent-neon);
+            color: #000;
+            box-shadow: 0 4px 15px var(--accent-glow);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             padding: 12px 24px;
-            background: none;
-            border: none;
-            color: #666;
-            font-weight: 600;
+            border-radius: 14px;
+            font-weight: 700;
             cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
+            border: none;
+            transition: all 0.3s ease;
         }
-        
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
+
+        .btn-neon:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 30px var(--accent-glow);
         }
-        
-        .tab-content {
-            display: none;
+
+        .btn-glass {
+            background: var(--glass);
+            color: var(--text-main);
+            border: 1px solid var(--border);
         }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s;
+
+        .btn-glass:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        /* Stats Section */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 80px;
         }
-        
-        /* Form Elements */
-        .form-group {
+
+        .stat-card {
+            padding: 30px;
+            text-align: left;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-bottom-color: var(--accent-neon);
+            background: rgba(255, 255, 255, 0.03);
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Inputs */
+        .input-group {
             margin-bottom: 24px;
         }
-        
-        label {
+
+        .input-label {
             display: block;
-            margin-bottom: 8px;
-            color: var(--dark);
+            font-size: 13px;
             font-weight: 600;
-            font-size: 14px;
+            color: var(--text-dim);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
-        
-        input, select, textarea {
+
+        .input-field {
             width: 100%;
-            padding: 14px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 18px;
+            color: white;
             font-family: inherit;
+            font-size: 15px;
+            transition: all var(--speed);
         }
-        
-        input:focus, select:focus, textarea:focus {
+
+        .input-field:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 4px var(--primary-glow);
         }
-        
+
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
-        
-        /* Buttons */
-        .btn {
-            padding: 14px 28px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-        
-        .btn-primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-        
-        .btn-outline {
-            background: white;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-        
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-        
-        .btn-block {
-            width: 100%;
-        }
-        
-        /* Upload Area */
-        .upload-area {
-            border: 2px dashed var(--border);
-            border-radius: 12px;
-            padding: 40px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .upload-area:hover {
-            border-color: var(--primary);
-            background: rgba(102, 126, 234, 0.05);
-        }
-        
-        .upload-area.dragover {
-            border-color: var(--primary);
-            background: rgba(102, 126, 234, 0.1);
-        }
-        
-        .upload-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-        
-        /* History Cards */
-        .history-grid {
-            display: grid;
-            gap: 16px;
-        }
-        
-        .history-card {
-            background: var(--light);
-            padding: 20px;
-            border-radius: 12px;
+
+        /* Chips */
+        .chip-container {
             display: flex;
-            gap: 16px;
-            transition: all 0.3s;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .chip {
+            padding: 8px 16px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
+            transition: all var(--speed);
+            color: var(--text-dim);
         }
-        
-        .history-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+        .chip:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
         }
-        
-        .history-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 8px;
+
+        /* Preview Sidebar */
+        .preview-container {
+            position: sticky;
+            top: 140px;
+        }
+
+        .phone-mockup {
+            width: 100%;
+            aspect-ratio: 9/19;
+            background: #000;
+            border: 10px solid #1a1a1a;
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .preview-header {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .preview-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .preview-img {
+            width: 100%;
+            aspect-ratio: 1;
+            background: #111;
             object-fit: cover;
         }
-        
-        .history-content {
-            flex: 1;
+
+        .phone-body {
+            padding: 16px;
+            font-size: 13px;
+            color: #eee;
         }
-        
-        .history-meta {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 8px;
-        }
-        
-        .history-text {
-            color: var(--dark);
-            line-height: 1.6;
-            margin-bottom: 8px;
-        }
-        
-        .history-tags {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .tag {
-            background: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            color: var(--primary);
-        }
-        
-        /* Result Card */
-        .result-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 32px;
-            border-radius: 16px;
-            margin-top: 24px;
-            display: none;
-        }
-        
-        .result-card.show {
-            display: block;
-            animation: slideIn 0.4s;
-        }
-        
-        .result-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .result-image {
-            width: 100%;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .result-content {
-            background: white;
-            padding: 24px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            white-space: pre-wrap;
-            line-height: 1.8;
-            color: var(--dark);
-        }
-        
-        .result-actions {
-            display: flex;
-            gap: 12px;
-        }
-        
+
         /* Loading */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            display: none;
-        }
-        
-        .loading.show {
-            display: block;
-        }
-        
         .spinner {
-            border: 4px solid var(--light);
-            border-top: 4px solid var(--primary);
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(124, 58, 237, 0.1);
+            border-top-color: var(--primary);
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
+            margin: 20px auto;
         }
-        
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
-        
-        /* Toast Notifications */
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: white;
-            padding: 16px 24px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-            display: none;
-            align-items: center;
-            gap: 12px;
-            z-index: 2000;
-        }
-        
-        .toast.show {
-            display: flex;
-            animation: slideUp 0.3s;
-        }
-        
-        @keyframes slideUp {
-            from { transform: translateY(100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .toast-success {
-            border-left: 4px solid var(--success);
-        }
-        
-        .toast-error {
-            border-left: 4px solid var(--danger);
-        }
-        
-        /* Modal */
+
+        /* Modals */
         .modal {
             display: none;
             position: fixed;
@@ -494,514 +489,1636 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 3000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
             align-items: center;
             justify-content: center;
         }
-        
+
         .modal.show {
             display: flex;
         }
-        
+
         .modal-content {
-            background: white;
-            padding: 32px;
-            border-radius: 20px;
-            max-width: 500px;
             width: 90%;
-            animation: scaleIn 0.3s;
+            max-width: 450px;
+            padding: 40px;
+            animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        
+
         @keyframes scaleIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
-        
-        .modal-header {
-            margin-bottom: 24px;
+
+        /* Mockup Actions */
+        .mock-actions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 5;
         }
-        
-        .modal-header h2 {
-            color: var(--dark);
-        }
-        
-        .modal-close {
-            float: right;
-            font-size: 28px;
+
+        .action-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            color: #999;
+            transition: all 0.3s ease;
+            font-size: 14px;
         }
-        
-        /* Responsive */
-        @media (max-width: 968px) {
-            .grid-layout {
+
+        .action-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+        }
+
+        .copy-trigger {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .copy-trigger:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Toasts */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 24px;
+            border-radius: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: white;
+            font-weight: 500;
+            transform: translateY(100px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 3000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        .toast-success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast-error {
+            border-left: 4px solid var(--accent);
+        }
+
+        /* Marketing Styles */
+        .marketing-container {
+            max-width: 1200px;
+            margin: 140px auto 100px;
+            padding: 0 20px;
+        }
+
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 120px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: var(--primary-glow);
+            border-radius: 30px;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 1px solid var(--primary);
+        }
+
+        .hero-title {
+            font-size: clamp(40px, 6vw, 64px);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 18px;
+            color: var(--text-dim);
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .hero-asset {
+            position: relative;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border);
+        }
+
+        .hero-asset img {
+            width: 100%;
+            height: auto;
+            display: block;
+            mix-blend-mode: lighten;
+        }
+
+        /* Features */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 120px;
+        }
+
+        .m-feature-card {
+            padding: 40px;
+            height: 100%;
+        }
+
+        .m-feature-card i {
+            font-size: 32px;
+            margin-bottom: 24px;
+            color: var(--primary);
+        }
+
+        .m-feature-card h3 {
+            margin-bottom: 16px;
+            font-size: 20px;
+        }
+
+        .m-feature-card p {
+            color: var(--text-dim);
+        }
+
+        /* Explore Prompts Grid */
+        .explore-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            margin: 40px 0 100px;
+        }
+
+        .prompt-card {
+            position: relative;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .prompt-card:hover {
+            transform: translateY(-8px) scale(1.05);
+            z-index: 2;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-glow);
+            border-color: var(--primary);
+        }
+
+        .prompt-thumb {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            display: block;
+        }
+
+        .prompt-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 12px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            font-size: 11px;
+            color: #fff;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .prompt-card:hover .prompt-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Perfect AI Section */
+        .perfect-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-bottom: 120px;
+            text-align: left;
+        }
+
+        .perfect-list {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .perfect-list li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: var(--text-dim);
+            padding: 10px;
+            border-radius: 12px;
+            transition: background 0.3s ease;
+        }
+
+        .perfect-list li:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: #fff;
+        }
+
+        .perfect-list i {
+            color: var(--accent-neon);
+            font-size: 16px;
+            width: 24px;
+        }
+
+        /* Trending Prompts updates */
+        .trending-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 100px;
+        }
+
+        .trending-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .trending-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent-neon);
+        }
+
+        .trending-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+        }
+
+        .trending-body {
+            padding: 20px;
+        }
+
+        .trending-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .price-tag {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--accent-neon);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Testimonials */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 100px;
+        }
+
+        .testimonial-card {
+            padding: 30px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .test-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(var(--primary), var(--secondary));
+            flex-shrink: 0;
+        }
+
+        /* Enhanced Footer */
+        .premium-footer {
+            padding: 100px 20px 60px;
+            background: rgba(5, 6, 11, 0.8);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            text-align: left;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 60px;
+        }
+
+        .footer-logo {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .footer-desc {
+            color: var(--text-dim);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .footer-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 25px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-neon);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 60px auto 0;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-dim);
+            font-size: 13px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: var(--text-dim);
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Mobile */
+        @media (max-width: 1100px) {
+            .dashboard-container {
                 grid-template-columns: 1fr;
             }
-            
-            .sidebar {
-                position: static;
+
+            .sidebar-nav,
+            .preview-container {
+                display: none;
             }
-            
-            .grid-2 {
+
+            .hero-section {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-desc {
+                margin: 0 auto 40px;
+            }
+
+            .feature-grid {
                 grid-template-columns: 1fr;
             }
-        }
-        
-        @media (max-width: 600px) {
-            .main-content {
-                padding: 24px;
-            }
-            
-            .result-actions {
-                flex-direction: column;
+
+            .testimonial-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
+
 <body>
+    <div class="mesh-bg">
+        <div class="nebula"></div>
+    </div>
+
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">🚀 AI Content Pro</div>
-            <div class="nav-menu">
-                <a href="#" class="nav-link">Dashboard</a>
-                <a href="#" class="nav-link">History</a>
-                <a href="#" class="nav-link">Pricing</a>
+    <nav class="navbar glass">
+        <div class="logo">CONTENT.AI</div>
+        <ul class="nav-links" id="navLinks">
+            <!-- Dynamic links will be injected here -->
+        </ul>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div id="langSelector" class="glass"
+                style="padding: 5px 12px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; gap: 8px;">
+                <span onclick="setLanguage('en')" id="lang_en">EN</span>
+                <span onclick="setLanguage('uz')" id="lang_uz">UZ</span>
+                <span onclick="setLanguage('ru')" id="lang_ru">RU</span>
             </div>
-            <div class="user-menu">
-                <div class="credits-badge" id="creditsDisplay">100 Credits</div>
-                <div class="user-avatar" onclick="showProfileModal()">JD</div>
+            <div id="navResult">
+                <button class="btn btn-neon" onclick="openAuthModal('login')" data-i18n="nav_login">JOIN US</button>
             </div>
         </div>
     </nav>
 
-    <!-- Main Container -->
-    <div class="container">
-        <div class="grid-layout">
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                <div class="sidebar-section">
-                    <h3>Statistics</h3>
-                    <div class="stat-card">
-                        <div class="stat-label">Posts Created</div>
-                        <div class="stat-value" id="totalPosts">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Credits Used</div>
-                        <div class="stat-value" id="creditsUsed">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Success Rate</div>
-                        <div class="stat-value" id="successRate">100%</div>
+    <div id="marketingView">
+        <div class="marketing-container">
+            <section class="hero-section">
+                <div class="hero-content">
+                    <span class="hero-badge" data-i18n="hero_badge">AI Synthesis Engine v0.4</span>
+                    <h1 class="hero-title" data-i18n="hero_title">Neural Output for the Digital Era.</h1>
+                    <p class="hero-desc" data-i18n="hero_desc">The first truly autonomous platform that syncs global
+                        trends with AI synthesis
+                        to create hyper-engaging social content in seconds.</p>
+                    <div style="display: flex; gap: 20px;">
+                        <button class="btn btn-primary" onclick="openAuthModal('register')"
+                            data-i18n="btn_get_started">GET STARTED FREE</button>
+                        <button class="btn btn-glass" onclick="scrollToFeatures()" data-i18n="btn_lower_down">LOWER DOWN
+                            <i class="fas fa-arrow-down"></i></button>
                     </div>
                 </div>
-                
-                <div class="sidebar-section">
-                    <button class="btn btn-primary btn-block" onclick="showUpgradeModal()">
-                        ⭐ Upgrade to Pro
-                    </button>
+                <div class="hero-asset">
+                    <img src="/static/hero.png" alt="AI Neural Workspace"
+                        style="filter: drop-shadow(0 0 50px var(--primary-glow));">
+                </div>
+            </section>
+
+            <section class="stats-row">
+                <div class="glass stat-card">
+                    <div class="stat-value">100K</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+                <div class="glass stat-card">
+                    <div class="stat-value">300+</div>
+                    <div class="stat-label">AI Templates</div>
+                </div>
+                <div class="glass stat-card">
+                    <div class="stat-value">99%</div>
+                    <div class="stat-label">Accuracy Rate</div>
+                </div>
+                <div class="glass stat-card">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Secure Synthesis</div>
+                </div>
+            </section>
+
+            <section id="features" class="section-header">
+                <h2 style="font-size: 32px;" data-i18n="section_explore">Explore AI Synthesis.</h2>
+                <p style="color: var(--text-dim);" data-i18n="section_explore_desc">Top performing prompts across all
+                    networks.</p>
+            </section>
+
+            <div class="explore-grid">
+                <div class="prompt-card"><img
+                        src="https://images.unsplash.com/photo-1620712943543-bcc4628c9757?w=300&auto=format&fit=crop"
+                        class="prompt-thumb">
+                    <div class="prompt-info">Cyber Cyborg #01</div>
+                </div>
+                <div class="prompt-card"><img
+                        src="https://images.unsplash.com/photo-1614728263952-84ea256f9679?w=300&auto=format&fit=crop"
+                        class="prompt-thumb">
+                    <div class="prompt-info">Mars Colony #04</div>
+                </div>
+                <div class="prompt-card"><img
+                        src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&auto=format&fit=crop"
+                        class="prompt-thumb">
+                    <div class="prompt-info">Neon Dreams #07</div>
+                </div>
+                <div class="prompt-card"><img
+                        src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=300&auto=format&fit=crop"
+                        class="prompt-thumb">
+                    <div class="prompt-info">Deep Space #02</div>
+                </div>
+                <div class="prompt-card"><img
+                        src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=300&auto=format&fit=crop"
+                        class="prompt-thumb">
+                    <div class="prompt-info">Synth Wave #09</div>
+                </div>
+                <div class="prompt-card"><img
+                        src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=300&auto=format&fit=crop"
+                        class="prompt-thumb">
+                    <div class="prompt-info">Retro Future #11</div>
+                </div>
+            </div>
+
+            <section class="perfect-section">
+                <div class="perfect-content">
+                    <h2 style="font-size: 40px; line-height: 1.2;" data-i18n="perfect_title">Find the Perfect AI <span
+                            style="color: var(--accent-neon);">Prompts</span> for Your Needs.</h2>
+                    <p style="color: var(--text-dim); margin-top: 20px;" data-i18n="perfect_desc">Our neural engine
+                        scans millions of data points to ensure your content resonates with the human collective.</p>
+                    <ul class="perfect-list">
+                        <li><i class="fas fa-check-circle"></i> <span data-i18n="perfect_1">Trend-Aligned
+                                Generation</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span data-i18n="perfect_2">Multi-Format
+                                Optimization</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span data-i18n="perfect_3">Semantic Accuracy
+                                Check</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span data-i18n="perfect_4">Cultural Bridge
+                                Analysis</span></li>
+                    </ul>
+                    <button class="btn btn-neon" style="margin-top: 30px;" data-i18n="btn_explore">EXPLORE NOW</button>
+                </div>
+                <div class="hero-asset" style="border-radius: 24px;">
+                    <img src="https://images.unsplash.com/photo-1675271591211-126ad94c495d?w=800&auto=format&fit=crop"
+                        alt="Perfect Synthesis" style="filter: drop-shadow(0 0 30px var(--accent-glow));">
+                </div>
+            </section>
+
+            <section class="section-header">
+                <h2 style="font-size: 32px;" data-i18n="trending_title">Trending Now.</h2>
+            </section>
+
+            <div class="trending-grid">
+                <div class="trending-card">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&auto=format&fit=crop"
+                        class="trending-img">
+                    <div class="trending-body">
+                        <h3 data-i18n="trend_1_title">Neural Portrait v2</h3>
+                        <p style="font-size: 13px; color: var(--text-dim); margin: 10px 0;" data-i18n="trend_1_cat">
+                            Midjourney / Photography</p>
+                        <div class="trending-meta">
+                            <span class="price-tag">$4.99</span>
+                            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 12px;"
+                                data-i18n="btn_buy_now">BUY</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="trending-card">
+                    <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=400&auto=format&fit=crop"
+                        class="trending-img">
+                    <div class="trending-body">
+                        <h3 data-i18n="trend_2_title">Galactic Vista</h3>
+                        <p style="font-size: 13px; color: var(--text-dim); margin: 10px 0;" data-i18n="trend_2_cat">
+                            Leonardo AI / Sci-Fi</p>
+                        <div class="trending-meta">
+                            <span class="price-tag">$2.99</span>
+                            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 12px;"
+                                data-i18n="btn_buy_now">BUY</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="trending-card">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=400&auto=format&fit=crop"
+                        class="trending-img">
+                    <div class="trending-body">
+                        <h3 data-i18n="trend_3_title">Cyber Cityscape</h3>
+                        <p style="font-size: 13px; color: var(--text-dim); margin: 10px 0;" data-i18n="trend_3_cat">
+                            DALL-E 3 / Architecture</p>
+                        <div class="trending-meta">
+                            <span class="price-tag">$5.50</span>
+                            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 12px;"
+                                data-i18n="btn_buy_now">BUY</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="trending-card">
+                    <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=400&auto=format&fit=crop"
+                        class="trending-img">
+                    <div class="trending-body">
+                        <h3 data-i18n="trend_4_title">Organic Synthesis</h3>
+                        <p style="font-size: 13px; color: var(--text-dim); margin: 10px 0;" data-i18n="trend_4_cat">
+                            Stable Diffusion / Abstract</p>
+                        <div class="trending-meta">
+                            <span class="price-tag">$3.25</span>
+                            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 12px;"
+                                data-i18n="btn_buy_now">BUY</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section-header">
+                <h2 style="font-size: 32px;" data-i18n="section_voices">Voices from the Mesh.</h2>
+            </section>
+
+            <div class="testimonial-grid">
+                <div class="glass testimonial-card">
+                    <div class="test-avatar"></div>
+                    <div>
+                        <p style="margin-bottom: 10px; font-style: italic;" data-i18n="test_1_quote">"The speed at which
+                            CONTENT.AI turn trends
+                            into Telegram posts is frighteningly efficient. A must-have for modern agencies."</p>
+                        <p><strong data-i18n="test_1_name">Alex Rivetti</strong> - <span data-i18n="test_1_pos">Creative
+                                Lead</span></p>
+                    </div>
+                </div>
+                <div class="glass testimonial-card">
+                    <div class="test-avatar"></div>
+                    <div>
+                        <p style="margin-bottom: 10px; font-style: italic;" data-i18n="test_2_quote">"Finally a platform
+                            that understands CIS
+                            markets and languages natively. ROI has surged by 40%."</p>
+                        <p><strong data-i18n="test_2_name">Samira Khan</strong> - <span data-i18n="test_2_pos">Digital
+                                Marketer</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="premium-footer">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo footer-logo">CONTENT.AI</div>
+                    <p class="footer-desc">The leading AI synthesis platform for modern digital creators. Transform
+                        trends into engagement with neural precision.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-title">Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Neural Engine</a></li>
+                        <li><a href="#">Prompt Market</a></li>
+                        <li><a href="#">API Documentation</a></li>
+                        <li><a href="#">System Status</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Our Vision</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-title">Newsletter</h4>
+                    <p class="footer-desc">Stay tuned for the latest AI trends.</p>
+                    <div class="input-group" style="display: flex; gap: 10px;">
+                        <input type="email" class="input-field" placeholder="Enter email">
+                        <button class="btn btn-neon" style="padding: 10px 20px;"><i
+                                class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Advanced Neuro-Sensing Systems. All rights reserved.</p>
+                <div style="display: flex; gap: 30px;">
+                    <a href="#" style="color: var(--text-dim); text-decoration: none;">English</a>
+                    <a href="#" style="color: var(--text-dim); text-decoration: none;">Uzbek</a>
+                    <a href="#" style="color: var(--text-dim); text-decoration: none;">Russian</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div id="dashboardView" style="display: none;">
+        <div class="dashboard-container">
+            <!-- Dashboard Sidebar -->
+            <aside class="sidebar-nav">
+                <div class="side-item active" onclick="switchTab('generate')" data-i18n="dash_create">
+                    <i class="fas fa-wand-magic-sparkles"></i> Create Content
+                </div>
+                <div class="side-item" onclick="switchTab('history')" data-i18n="dash_vault">
+                    <i class="fas fa-vault"></i> Media Vault
+                </div>
+                <div class="side-item" onclick="switchTab('pricing')" data-i18n="dash_upgrade">
+                    <i class="fas fa-bolt"></i> Upgrade Pro
+                </div>
+                <div style="margin-top:auto; padding: 20px;">
+                    <div class="glass" style="padding: 20px; border-radius: 20px; border-color: var(--primary);">
+                        <p style="font-size: 11px; color: var(--text-dim); margin-bottom: 8px;" data-i18n="sys_status">
+                            SYSTEM STATUS</p>
+                        <p style="font-size: 13px; font-weight: 700;"><i class="fas fa-circle"
+                                style="color: var(--success); font-size: 8px;"></i> <span data-i18n="sys_go">ALL ENGINES
+                                GO</span></p>
+                    </div>
                 </div>
             </aside>
 
-            <!-- Main Content -->
-            <main class="main-content">
-                <div class="page-header">
-                    <h1>AI Content Generator</h1>
-                    <p>Create viral social media content from trending topics</p>
-                </div>
-
-                <!-- Tabs -->
-                <div class="tabs">
-                    <button class="tab active" onclick="switchTab('generate')">Generate</button>
-                    <button class="tab" onclick="switchTab('history')">History</button>
-                    <button class="tab" onclick="switchTab('templates')">Templates</button>
-                    <button class="tab" onclick="switchTab('schedule')">Schedule</button>
-                </div>
-
+            <!-- Main Workspace -->
+            <main class="workspace glass">
                 <!-- Generate Tab -->
                 <div id="generateTab" class="tab-content active">
+                    <header style="margin-bottom: 40px;">
+                        <h2 style="font-size: 32px;" data-i18n="cook_title">Let's <span
+                                style="color: var(--primary);">Cook.</span></h2>
+                        <p style="color: var(--text-dim);" data-i18n="cook_desc">The world's most powerful AI content
+                            synthesis engine.</p>
+                    </header>
+
+                    <div class="chip-container">
+                        <div class="chip" onclick="useSuggestion('Artificial Intelligence in 2026')">🤖 AI Future</div>
+                        <div class="chip" onclick="useSuggestion('Sustainable Living Guide')">🌱 Eco Life</div>
+                        <div class="chip" onclick="useSuggestion('Blockchain Revolution')">⛓️ Web3</div>
+                        <div class="chip" onclick="useSuggestion('Mars Colony Updates')">🚀 Space</div>
+                    </div>
+
                     <form id="generateForm">
-                        <!-- Step 1: Country & Trends -->
-                        <div class="form-group">
-                            <label>1. Select Country & Fetch Trends</label>
-                            <div class="grid-2">
-                                <select id="country">
-                                    <option value="US">🇺🇸 United States</option>
-                                    <option value="GB">🇬🇧 United Kingdom</option>
-                                    <option value="UZ">🇺🇿 Uzbekistan</option>
-                                    <option value="RU">🇷🇺 Russia</option>
-                                    <option value="TR">🇹🇷 Turkey</option>
-                                </select>
-                                <button type="button" class="btn btn-primary" onclick="fetchTrends()">
-                                    🔍 Fetch Trends
-                                </button>
+                        <div class="input-group">
+                            <label class="input-label" data-i18n="label_mavzu">Mavzu yoki Trend</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="manualTrend" data-i18n="input_topic_placeholder"
+                                    placeholder="Nima haqida yozamiz?" class="input-field"
+                                    oninput="updateLivePreview()">
+                                <button type="button" class="btn btn-glass" onclick="fetchTrends()" style="width:140px;"
+                                    data-i18n="btn_trends">TRENDS</button>
                             </div>
-                        </div>
-
-                        <!-- Step 2: Select Trend -->
-                        <div class="form-group">
-                            <label>2. Select Trending Topic</label>
-                            <div class="grid-2">
-                                <div>
-                                    <label style="font-size: 12px; color: #999; margin-bottom: 4px;">Or Select from Fetched</label>
-                                    <select id="trend">
-                                        <option value="">First, fetch trends...</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label style="font-size: 12px; color: #999; margin-bottom: 4px;">Or Enter Manually</label>
-                                    <input type="text" id="manualTrend" placeholder="Type your topic here...">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Step 3: Platform & Language -->
-                        <div class="form-group">
-                            <label>3. Content Settings</label>
-                            <div class="grid-2">
-                                <div>
-                                    <label>Platform</label>
-                                    <select id="platform">
-                                        <option value="instagram">📸 Instagram</option>
-                                        <option value="telegram">✈️ Telegram</option>
-                                        <option value="twitter">🐦 Twitter</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label>Language</label>
-                                    <select id="language">
-                                        <option value="en">English</option>
-                                        <option value="uz">O'zbek</option>
-                                        <option value="ru">Русский</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Step 4: Style -->
-                        <div class="form-group">
-                            <label>4. Content Style</label>
-                            <select id="style">
-                                <option value="creative">🎨 Creative</option>
-                                <option value="professional">💼 Professional</option>
-                                <option value="viral">🔥 Viral</option>
-                                <option value="educational">📚 Educational</option>
+                            <select id="trend" class="input-field" style="margin-top: 10px;"
+                                onchange="syncManualTrend()">
+                                <option value="" data-i18n="input_trend_select">Yoki trendlardan tanlang...</option>
                             </select>
                         </div>
 
-                        <!-- Generate Button -->
-                        <button type="submit" class="btn btn-primary btn-block">
-                            ✨ Generate Content (1 Credit)
+                        <div class="grid-2">
+                            <div class="input-group">
+                                <label class="input-label" data-i18n="label_platform">Platforma</label>
+                                <select id="platform" class="input-field">
+                                    <option value="instagram">Instagram</option>
+                                    <option value="telegram">Telegram</option>
+                                    <option value="twitter">Twitter / X</option>
+                                    <option value="linkedin">LinkedIn</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label" data-i18n="label_lang">Language</label>
+                                <select id="language" class="input-field">
+                                    <option value="uz">Uzbek</option>
+                                    <option value="en">English</option>
+                                    <option value="ru">Russian</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label" data-i18n="label_style">Dizayn va Stil</label>
+                            <select id="style" class="input-field">
+                                <option value="creative">Creative & Fun</option>
+                                <option value="professional">Professional</option>
+                                <option value="viral">Viral Growth</option>
+                                <option value="educational">Deep Dive</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary"
+                            style="width: 100%; height: 56px; font-size: 18px;" data-i18n="btn_start_synth">
+                            START SYNTHESIS
                         </button>
                     </form>
 
-                    <!-- Loading -->
-                    <div class="loading" id="loading">
+                    <div id="loading" style="display:none; text-align:center; padding: 40px;">
                         <div class="spinner"></div>
-                        <p>AI is creating your content...</p>
-                    </div>
-
-                    <!-- Result -->
-                    <div class="result-card" id="resultCard">
-                        <div class="result-header">
-                            <h3>📝 Generated Content</h3>
-                            <span id="resultTimestamp"></span>
-                        </div>
-                        <img id="resultImage" class="result-image" style="display:none;">
-                        <div class="result-content" id="resultContent"></div>
-                        <div class="result-actions">
-                            <button class="btn btn-success" onclick="copyContent()">📋 Copy</button>
-                            <button class="btn btn-outline" onclick="downloadImage()">📥 Download</button>
-                            <button class="btn btn-outline" onclick="saveToHistory()">💾 Save</button>
-                            <button class="btn btn-outline" onclick="schedulePost()">⏰ Schedule</button>
-                        </div>
+                        <p style="color: var(--text-dim);" data-i18n="load_processing">AI is processing neural layers...
+                        </p>
                     </div>
                 </div>
 
                 <!-- History Tab -->
                 <div id="historyTab" class="tab-content">
-                    <div class="history-grid" id="historyGrid">
-                        <!-- History items will be loaded here -->
-                        <p style="text-align:center; color:#999; padding:40px;">No history yet. Generate your first post!</p>
+                    <header style="margin-bottom: 30px;">
+                        <h2>Media <span style="color: var(--secondary);" data-i18n="vault_title_span">Vault</span></h2>
+                        <p style="color: var(--text-dim);" data-i18n="vault_desc">Your archive of generated
+                            masterpieces.</p>
+                    </header>
+                    <div id="historyGrid" style="display: grid; gap: 16px;">
+                        <p style="color: var(--text-dim); text-align:center; padding: 40px;" data-i18n="vault_empty">
+                            Vault is currently empty.
+                        </p>
                     </div>
                 </div>
 
-                <!-- Templates Tab -->
-                <div id="templatesTab" class="tab-content">
-                    <div class="upload-area" onclick="document.getElementById('templateUpload').click()">
-                        <div class="upload-icon">📤</div>
-                        <h3>Upload Custom Template</h3>
-                        <p>Drop your image template here or click to browse</p>
-                        <input type="file" id="templateUpload" accept="image/*" style="display:none;" onchange="handleTemplateUpload(event)">
-                    </div>
-                </div>
-
-                <!-- Schedule Tab -->
-                <div id="scheduleTab" class="tab-content">
-                    <h3 style="margin-bottom:20px;">Scheduled Posts</h3>
-                    <div id="scheduledPosts">
-                        <p style="text-align:center; color:#999; padding:40px;">No scheduled posts yet</p>
+                <!-- Pricing Tab -->
+                <div id="pricingTab" class="tab-content">
+                    <div style="text-align:center; padding: 40px 0;">
+                        <h2 style="font-size: 32px; margin-bottom: 20px;" data-i18n="pricing_title">Unlock Full
+                            Potential</h2>
+                        <div class="glass"
+                            style="max-width: 400px; margin: 0 auto; padding: 40px; border-color: var(--primary);">
+                            <p style="font-size: 14px; color: var(--primary); font-weight: 800; margin-bottom: 10px;"
+                                data-i18n="pricing_pro">
+                                PRO PLAN</p>
+                            <h2 style="font-size: 48px; margin-bottom: 20px;">$19.99<span
+                                    style="font-size: 16px; color: var(--text-dim);"
+                                    data-i18n="pricing_per_mo">/mo</span></h2>
+                            <ul
+                                style="text-align: left; list-style: none; margin-bottom: 30px; display: grid; gap: 10px;">
+                                <li><i class="fas fa-check" style="color: var(--success);"></i> <span
+                                        data-i18n="pricing_feat1">Unlimited Generations</span>
+                                </li>
+                                <li><i class="fas fa-check" style="color: var(--success);"></i> <span
+                                        data-i18n="pricing_feat2">4K Image AI Synthesis</span>
+                                </li>
+                                <li><i class="fas fa-check" style="color: var(--success);"></i> <span
+                                        data-i18n="pricing_feat3">Priority Server Access</span>
+                                </li>
+                            </ul>
+                            <button class="btn btn-primary" style="width: 100%;" data-i18n="btn_get_pro">GET PRO
+                                ACCESS</button>
+                        </div>
                     </div>
                 </div>
             </main>
+
+            <!-- Preview Mockup -->
+            <aside class="preview-container">
+                <div class="phone-mockup">
+                    <div class="preview-header">
+                        <div class="preview-avatar"></div>
+                        <div>
+                            <p style="font-size: 12px; font-weight: 800;" data-i18n="preview_owner">ContentAI_Owner</p>
+                            <p style="font-size: 10px; color: var(--text-dim);" data-i18n="preview_sub">AI-Powered
+                                Platform</p>
+                        </div>
+                    </div>
+                    <div style="position: relative;">
+                        <img id="prevImg" class="preview-img"
+                            src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop">
+                        <div class="mock-actions">
+                            <button class="action-btn" onclick="downloadPostImage()" title="Download Media">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="phone-body" style="position: relative;">
+                        <p id="prevTitle" style="font-weight: 800; margin-bottom: 8px; color: var(--primary);"
+                            data-i18n="preview_title_def">Title of
+                            Post</p>
+                        <p id="prevText" style="color: #aaa; line-height: 1.4; padding-right: 35px;"
+                            data-i18n="preview_text_def">Your generated content will appear here in real-time...</p>
+                        <button class="copy-trigger" onclick="copyPostText()" title="Copy Content">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div style="padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; gap: 16px; opacity: 0.5;">
+                            <i class="far fa-heart"></i>
+                            <i class="far fa-comment"></i>
+                            <i class="far fa-paper-plane"></i>
+                        </div>
+                        <button class="btn btn-primary" onclick="publishContent()"
+                            style="padding: 8px 16px; font-size: 12px; border-radius: 10px;" data-i18n="btn_publish">
+                            PUBLISH <i class="fas fa-share"></i>
+                        </button>
+                    </div>
+                </div>
+            </aside>
         </div>
-    </div>
+    </div> <!-- Close dashboardView (started at line 705) -->
 
     <!-- Modals -->
+    <div class="modal" id="authModal">
+        <div class="modal-content glass">
+            <span class="modal-close" style="float:right; cursor:pointer;"
+                onclick="closeModal('authModal')">&times;</span>
+            <h2 id="authTitle" style="margin-bottom: 10px;" data-i18n="modal_welcome">Welcome Back</h2>
+            <p style="color: var(--text-dim); margin-bottom: 30px;" data-i18n="modal_login_desc">Login to start creating
+                viral content.</p>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <label class="input-label" data-i18n="label_user">Username</label>
+                    <input type="text" id="loginUsername" class="input-field" required>
+                </div>
+                <div class="input-group">
+                    <label class="input-label" data-i18n="label_pass">Password</label>
+                    <input type="password" id="loginPassword" class="input-field" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_login">LOGIN
+                    ENGINE</button>
+                <p style="text-align:center; margin-top: 20px; font-size: 14px;">
+                    <a href="#" onclick="switchAuth('register')" style="color: var(--primary);"
+                        data-i18n="link_new">New? Create
+                        Identity</a>
+                </p>
+            </form>
+
+            <form id="registerForm" onsubmit="handleRegister(event)" style="display:none;">
+                <div class="input-group">
+                    <label class="input-label" data-i18n="label_fullname">Full Name</label>
+                    <input type="text" id="regFullName" class="input-field" required>
+                </div>
+                <div class="input-group">
+                    <label class="input-label" data-i18n="label_user">Username</label>
+                    <input type="text" id="regUsername" class="input-field" required>
+                </div>
+                <div class="input-group">
+                    <label class="input-label" data-i18n="label_email">Email</label>
+                    <input type="email" id="regEmail" class="input-field" required>
+                </div>
+                <div class="input-group">
+                    <label class="input-label" data-i18n="label_pass">Password</label>
+                    <input type="password" id="regPassword" class="input-field" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_init">INITIALIZE
+                    ID</button>
+            </form>
+        </div>
+    </div>
+
     <div class="modal" id="profileModal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal('profileModal')">&times;</span>
-            <div class="modal-header">
-                <h2>Profile Settings</h2>
+        <div class="modal-content glass">
+            <span class="modal-close" style="float:right; cursor:pointer;"
+                onclick="closeModal('profileModal')">&times;</span>
+            <h2 style="margin-bottom: 30px;" data-i18n="profile_title">Commander Profile</h2>
+            <div
+                style="display: flex; align-items: center; gap: 20px; margin-bottom: 30px; padding: 20px; background: rgba(255,255,255,0.03); border-radius: 20px;">
+                <div id="profAvatar"
+                    style="width:60px; height:60px; border-radius: 50%; background: var(--primary); display:flex; align-items:center; justify-content:center; font-weight:800; font-size: 24px;">
+                    U</div>
+                <div>
+                    <p id="profName" style="font-weight: 800; font-size: 18px;">Name</p>
+                    <p id="profEmail" style="color: var(--text-dim); font-size: 13px;">Email</p>
+                </div>
             </div>
-            <button class="btn btn-primary btn-block" onclick="logout()">🚪 Logout</button>
+            <div class="grid-2" style="margin-bottom: 30px;">
+                <div class="glass" style="padding: 16px; border-radius: 16px; text-align: center;">
+                    <p style="font-size: 11px; color: var(--text-dim);" data-i18n="label_tier">TIER</p>
+                    <p id="profTier" style="font-weight: 800; color: var(--secondary);">FREE</p>
+                </div>
+                <div class="glass" style="padding: 16px; border-radius: 16px; text-align: center;">
+                    <p style="font-size: 11px; color: var(--text-dim);" data-i18n="credits_label">CREDITS</p>
+                    <p id="profCredits" style="font-weight: 800; color: var(--primary);">0</p>
+                </div>
+            </div>
+
+            <h3 style="font-size: 14px; margin-bottom: 16px; color: var(--text-dim);" data-i18n="connected_platforms">
+                CONNECTED PLATFORMS</h3>
+            <div style="display: flex; gap: 10px; margin-bottom: 30px;">
+                <div class="glass" style="padding: 10px 15px; border-radius: 12px; font-size: 12px; opacity: 0.6;">
+                    <i class="fab fa-telegram" style="color:#0088cc;"></i> <span data-i18n="plat_tg">Telegram</span>
+                </div>
+                <div class="glass" style="padding: 10px 15px; border-radius: 12px; font-size: 12px; opacity: 0.6;">
+                    <i class="fab fa-instagram" style="color:var(--accent);"></i> <span
+                        data-i18n="plat_ig">Instagram</span>
+                </div>
+                <div class="glass" style="padding: 10px 15px; border-radius: 12px; font-size: 12px; opacity: 0.6;">
+                    <i class="fab fa-linkedin" style="color:var(--secondary);"></i> <span
+                        data-i18n="plat_li">LinkedIn</span>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%; background: var(--accent);" onclick="logout()"
+                data-i18n="link_logout">TERMINATE SESSION</button>
         </div>
     </div>
 
-    <div class="modal" id="upgradeModal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal('upgradeModal')">&times;</span>
-            <div class="modal-header">
-                <h2>Upgrade to Pro</h2>
-            </div>
-            <p>Get unlimited credits and advanced features</p>
-            <button class="btn btn-primary btn-block" onclick="upgradeToPro()">💳 Subscribe - $9.99/mo</button>
-        </div>
-    </div>
-
-    <!-- Toast -->
-    <div class="toast" id="toast">
+    <div id="toast" class="toast">
         <span id="toastMessage"></span>
     </div>
 
     <script>
-        // Global state
-        let currentUser = { credits: 100, posts: 0 };
-        let currentImageUrl = '';
-        let currentContent = '';
-        let history = [];
+        let currentUser = null;
+        let token = localStorage.getItem('auth_token');
+        let currentGeneratedContent = null;
+        let currentLang = localStorage.getItem('app_lang') || 'en';
 
-        // Initialize
-        document.getElementById('generateForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            await generateContent();
-        });
+        const translations = {
+            en: {
+                nav_create: "Create", nav_vault: "Vault", nav_pricing: "PowerUp",
+                nav_features: "Features", nav_testimonials: "Voices", nav_login_link: "Sign In",
+                nav_login: "LOGIN", nav_get_started: "GET STARTED",
+                credits_label: "CREDITS", hero_badge: "AI Synthesis Engine v0.4",
+                hero_title: "Neural Output for the Digital Era.",
+                hero_desc: "The first truly autonomous platform that syncs global trends with AI synthesis to create hyper-engaging social content in seconds.",
+                btn_get_started: "GET STARTED FREE", btn_lower_down: "LOWER DOWN",
+                section_features_title: "Omni-Channel Synthesis.", section_features_desc: "One engine, all your digital frontiers.",
+                feat_trend_title: "Trend Prediction", feat_trend_desc: "Real-time analysis of global news feeds and RSS streams to predict the next viral movement.",
+                feat_lang_title: "Multi-Lingual NLP", feat_lang_desc: "Optimized for Uzbek, English, and Russian with culturally aware semantic models.",
+                feat_integr_title: "Direct Integration", feat_integr_desc: "Publish directly to Telegram, Instagram, and LinkedIn with zero friction through our API bridges.",
+                section_voices: "Voices from the Mesh.",
+                dash_create: "Create Content", dash_vault: "Media Vault", dash_upgrade: "Upgrade Pro",
+                sys_status: "SYSTEM STATUS", sys_go: "ALL ENGINES GO",
+                cook_title: "Let's Cook.", cook_desc: "The world's most powerful AI content synthesis engine.",
+                label_mavzu: "Topic or Trend", input_topic_placeholder: "What are we writing about?",
+                btn_trends: "TRENDS", label_platform: "Platform", label_lang: "Language",
+                label_style: "Style", btn_start_synth: "START SYNTHESIS",
+                load_processing: "AI is processing neural layers...",
+                vault_title: "Media Vault", vault_desc: "Your archive of generated masterpieces.",
+                vault_empty: "Vault is currently empty.",
+                pricing_title: "Unlock Full Potential", pricing_pro: "PRO PLAN",
+                pricing_per_mo: "/mo", pricing_feat1: "Unlimited Generations",
+                pricing_feat2: "4K Image AI Synthesis", pricing_feat3: "Priority Server Access",
+                btn_get_pro: "GET PRO ACCESS",
+                preview_owner: "ContentAI_Owner", preview_sub: "AI-Powered Platform",
+                preview_title_def: "Post Title", preview_text_def: "Your generated content will appear here in real-time...",
+                btn_publish: "PUBLISH",
+                modal_welcome: "Welcome Back", modal_login_desc: "Login to start creating viral content.",
+                label_user: "Username", label_pass: "Password", btn_login: "LOGIN ENGINE",
+                link_new: "New? Create Identity", modal_reg_title: "Create Identity",
+                label_fullname: "Full Name", label_email: "Email", btn_init: "INITIALIZE ID",
+                profile_title: "Commander Profile", label_tier: "TIER", link_logout: "TERMINATE SESSION",
+                section_explore: "Explore AI Synthesis.", section_explore_desc: "Top performing prompts across all networks.",
+                perfect_title: "Find the Perfect AI Prompts for Your Needs.",
+                perfect_desc: "Our neural engine scans millions of data points to ensure your content resonates.",
+                perfect_1: "Trend-Aligned Generation", perfect_2: "Multi-Format Optimization",
+                perfect_3: "Semantic Accuracy Check", perfect_4: "Cultural Bridge Analysis",
+                btn_explore: "EXPLORE NOW", trending_title: "Trending Now.",
+                trend_1_title: "Neural Portrait v2", trend_1_cat: "Midjourney / Photography",
+                trend_2_title: "Galactic Vista", trend_2_cat: "Leonardo AI / Sci-Fi",
+                trend_3_title: "Cyber Cityscape", trend_3_cat: "DALL-E 3 / Architecture",
+                trend_4_title: "Organic Synthesis", trend_4_cat: "Stable Diffusion / Abstract",
+                btn_buy_now: "BUY",
+                test_1_quote: "\"The speed at which CONTENT.AI turn trends into Telegram posts is frighteningly efficient. A must-have for modern agencies.\"",
+                test_1_name: "Alex Rivetti", test_1_pos: "Creative Lead",
+                test_2_quote: "\"Finally a platform that understands CIS markets and languages natively. ROI has surged by 40%.\"",
+                test_2_name: "Samira Khan", test_2_pos: "Digital Marketer"
+            },
+            uz: {
+                nav_create: "Yaratish", nav_vault: "Ombor", nav_pricing: "Premium",
+                nav_features: "Xususiyatlar", nav_testimonials: "Fikrlar", nav_login_link: "Kirish",
+                nav_login: "KIRISH", nav_get_started: "BOSHLASH",
+                credits_label: "KREDIT", hero_badge: "AI Sintez Dvigateli v0.4",
+                hero_title: "Raqamli Era uchun Neyral Natija.",
+                hero_desc: "Global trendlarni AI sintezi bilan sinxronlashtiradigan va soniyalarda jozibali ijtimoiy kontent yaratadigan birinchi haqiqiy avtonom platforma.",
+                btn_get_started: "TEKIN BOSHLASH", btn_lower_down: "PASTGA TUSHISH",
+                section_features_title: "Ko'p Kanalli Sintez.", section_features_desc: "Bitta dvigatel, barcha raqamli chegaralaringiz.",
+                feat_trend_title: "Trend Bashorati", feat_trend_desc: "Keyingi viral harakatni bashorat qilish uchun global yangiliklar va RSS oqimlarini real vaqt rejimida tahlil qilish.",
+                feat_lang_title: "Ko'p Tilli NLP", feat_lang_desc: "O'zbek, ingliz va rus tillari uchun neyral modellar bilan optimallashtirilgan.",
+                feat_integr_title: "Integratsiya", feat_integr_desc: "Telegram, Instagram va LinkedIn-ga hech qanday qiyinchiliksiz nashr qiling.",
+                section_voices: "Mijozlar Fikri.",
+                dash_create: "Kontent Yaratish", dash_vault: "Media Ombori", dash_upgrade: "Pro-ga O'tish",
+                sys_status: "TIZIM HOLATI", sys_go: "HAMMA TIZIMLAR TAYYOR",
+                cook_title: "Keling, boshlaymiz.", cook_desc: "Dunyodagi eng kuchli AI kontent sintezi dvigateli.",
+                label_mavzu: "Mavzu yoki Trend", input_topic_placeholder: "Nima haqida yozamiz?",
+                btn_trends: "TRENDLAR", label_platform: "Platforma", label_lang: "Til",
+                label_style: "Uslub", btn_start_synth: "SINTEZNI BOSHLASH",
+                load_processing: "AI neyral qatlamlarni qayta ishlamoqda...",
+                vault_title: "Media Ombori", vault_desc: "Yaratilgan asarlaringiz arxivi.",
+                vault_empty: "Ombor hozircha bo'sh.",
+                pricing_title: "To'liq Imkoniyat", pricing_pro: "PRO REJA",
+                pricing_per_mo: "/oy", pricing_feat1: "Cheksiz Generatsiyalar",
+                pricing_feat2: "4K Tasvir AI Sintezi", pricing_feat3: "Serverga Prioritet Kirish",
+                btn_get_pro: "PRO MUROJAAT OLISH",
+                preview_owner: "ContentAI_Egasi", preview_sub: "AI-Asoslangan Platforma",
+                preview_title_def: "Post Sarlavhasi", preview_text_def: "Yaratilgan kontentingiz bu yerda real vaqtda ko'rinadi...",
+                btn_publish: "CHIQARISH",
+                modal_welcome: "Xush Kelibsiz", modal_login_desc: "Viral kontent yaratish uchun tizimga kiring.",
+                label_user: "Foydalanuvchi nomi", label_pass: "Parol", btn_login: "TIZIMGA KIRISH",
+                link_new: "Yangimisiz? Hisob oching", modal_reg_title: "Hisob Yaratish",
+                label_fullname: "To'liq Ism", label_email: "Email", btn_init: "IDNI FAOLLASHTIRISH",
+                profile_title: "Foydalanuvchi Profili", label_tier: "DARAJA", link_logout: "SESSIYANI YAKUNLASH",
+                section_explore: "AI Sintezini Ohirigacha O'rganing.", section_explore_desc: "Barcha tarmoqlarda eng yuqori natija ko'rsatgan promptlar.",
+                perfect_title: "Ehtiyojlaringiz uchun mukammal AI promptlarini toping.",
+                perfect_desc: "Bizning neyral dvigatelimiz kontentingiz insoniyat jamoasiga mos kelishini ta'minlash uchun millionlab ma'lumotlarni skanerlaydi.",
+                perfect_1: "Trendga Mos Generatsiya", perfect_2: "Ko'p Formatli Optimallashtirish",
+                perfect_3: "Semantik Aniqlik Tekshiruvi", perfect_4: "Madaniy Ko'prik Tahlili",
+                btn_explore: "HOZIR O'RGANISH", trending_title: "Hozir Trendda.",
+                trend_1_title: "Neyral Portret v2", trend_1_cat: "Midjourney / Fotogalereya",
+                trend_2_title: "Galaktik Ko'rinish", trend_2_cat: "Leonardo AI / Ilmiy-fantastika",
+                trend_3_title: "Kiber Shahar Manzarasi", trend_3_cat: "DALL-E 3 / Arxitektura",
+                trend_4_title: "Organik Sintez", trend_4_cat: "Stable Diffusion / Abstrakt",
+                btn_buy_now: "SOTIB OLISH"
+            },
+            ru: {
+                nav_create: "Создать", nav_vault: "Хранилище", nav_pricing: "Тарифы",
+                nav_features: "Функции", nav_testimonials: "Отзывы", nav_login_link: "Войти",
+                nav_login: "ВХОД", nav_get_started: "НАЧАТЬ",
+                credits_label: "КРЕДИТЫ", hero_badge: "AI Synthesis Engine v0.4",
+                hero_title: "Нейронный Вывод для Цифровой Эры.",
+                hero_desc: "Первая автономная платформа, синхронизирующая глобальные тренды с AI-синтезом.",
+                btn_get_started: "НАЧАТЬ БЕСПЛАТНО", btn_lower_down: "ВНИЗ",
+                section_features_title: "Омниканальный Синтез.", section_features_desc: "Один движок для всех границ.",
+                feat_trend_title: "Прогноз Трендов", feat_trend_desc: "Анализ глобальных новостей в реальном времени.",
+                feat_lang_title: "Мультиязычный NLP", feat_lang_desc: "Оптимизировано для узбекского, английского и русского.",
+                feat_integr_title: "Прямая Интеграция", feat_integr_desc: "Публикуйте напрямую в соцсети через наши мосты.",
+                section_voices: "Голоса Сети.",
+                dash_create: "Создать Контент", dash_vault: "Хранилище", dash_upgrade: "Обновить Pro",
+                sys_status: "СТАТУС СИСТЕМЫ", sys_go: "ВСЕ СИСТЕМЫ В НОРМЕ",
+                cook_title: "Давайте готовить.", cook_desc: "Самый мощный движок для AI-контента.",
+                label_mavzu: "Тема или Тренд", input_topic_placeholder: "О чем пишем?",
+                btn_trends: "ТРЕНДЫ", label_platform: "Платформа", label_lang: "Язык",
+                label_style: "Стиль", btn_start_synth: "НАЧАТЬ СИНТЕЗ",
+                load_processing: "AI обрабатывает нейронные слои...",
+                vault_title: "Хранилище", vault_desc: "Ваш архив созданных шедевров.",
+                vault_empty: "Хранилище пока пусто.",
+                pricing_title: "Полный Потенциал", pricing_pro: "PRO ТАРИФ",
+                pricing_per_mo: "/мес", pricing_feat1: "Безлимитные Генерации",
+                pricing_feat2: "4K Изображение AI Синтез", pricing_feat3: "Приоритетный Доступ",
+                btn_get_pro: "ПОЛУЧИТЬ PRO",
+                preview_owner: "Владелец_ContentAI", preview_sub: "AI-Платформа",
+                preview_title_def: "Заголовок поста", preview_text_def: "Ваш контент появится здесь в реальном времени...",
+                btn_publish: "ОПУБЛИКОВАТЬ",
+                modal_welcome: "С Возвращением", modal_login_desc: "Войдите для создания контента.",
+                label_user: "Имя пользователя", label_pass: "Пароль", btn_login: "ВОЙТИ В СИСТЕМУ",
+                link_new: "Впервые здесь? Аккаунт", modal_reg_title: "Аккаунт",
+                label_fullname: "Полное Имя", label_email: "Email", btn_init: "ИНИЦИАЛИЗАЦИЯ ID",
+                profile_title: "Профиль", label_tier: "ТАРИФ", link_logout: "ВЫЙТИ",
+                section_explore: "Исследуйте AI Синтез.", section_explore_desc: "Самые эффективные промпты во всех сетях.",
+                perfect_title: "Найдите идеальные AI промпты для ваших нужд.",
+                perfect_desc: "Наш нейронный движок сканирует миллионы точек данных для идеаческого резонанса.",
+                perfect_1: "Генерация по трендам", perfect_2: "Мультиформатная оптимизация",
+                perfect_3: "Проверка семантической точности", perfect_4: "Анализ культурных связей",
+                btn_explore: "ИССЛЕДОВАТЬ", trending_title: "Сейчас в тренде.",
+                trend_1_title: "Нейронный Портрет v2", trend_1_cat: "Midjourney / Фотография",
+                trend_2_title: "Галактический Вид", trend_2_cat: "Leonardo AI / Научная фантастика",
+                trend_3_title: "Кибер-город", trend_3_cat: "DALL-E 3 / Архитектура",
+                trend_4_title: "Органический Синтез", trend_4_cat: "Stable Diffusion / Абстракция",
+                btn_buy_now: "КУПИТЬ"
+            }
+        };
 
-        // Tab switching
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById(tabName + 'Tab').classList.add('active');
-            
-            if (tabName === 'history') loadHistory();
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('app_lang', lang);
+            applyTranslations();
+            updateLangSelector();
+            showToast(`Language switched to ${lang.toUpperCase()}`, 'success');
         }
 
-        // Fetch trends
+        function updateLangSelector() {
+            document.querySelectorAll('#langSelector span').forEach(s => s.style.opacity = '0.5');
+            const active = document.getElementById(`lang_${currentLang}`);
+            if (active) active.style.opacity = '1';
+        }
+
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const trans = translations[currentLang][key];
+                if (trans) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = trans;
+                    } else {
+                        // Fix: Preserving HTML children (like icons) while updating text
+                        let hasTextNode = false;
+                        el.childNodes.forEach(child => {
+                            if (child.nodeType === Node.TEXT_NODE && child.textContent.trim() !== "") {
+                                child.textContent = trans;
+                                hasTextNode = true;
+                            }
+                        });
+                        if (!hasTextNode) {
+                            // Fallback if no specific text node found, but avoid destroying icons
+                            if (el.children.length === 0) {
+                                el.textContent = trans;
+                            } else {
+                                const iconTag = el.querySelector('i');
+                                if (iconTag) {
+                                    el.innerHTML = `${trans} ${iconTag.outerHTML}`;
+                                } else {
+                                    el.textContent = trans;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            document.documentElement.lang = currentLang;
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (token) await checkAuth();
+            updateUI();
+            updateLangSelector();
+
+            window.addEventListener('scroll', () => {
+                const nav = document.querySelector('.navbar');
+                if (window.scrollY > 50) nav.classList.add('scrolled');
+                else nav.classList.remove('scrolled');
+            });
+        });
+
+        // UI & Tab Logic
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
+            document.getElementById(tab + 'Tab').classList.add('active');
+
+            // Sidebar sync
+            document.querySelectorAll('.side-item').forEach(item => {
+                if (item.onclick.toString().includes(tab)) item.classList.add('active');
+            });
+
+            if (tab === 'history') loadHistory();
+        }
+
+        function updateLivePreview() {
+            const topic = document.getElementById('manualTrend').value;
+            document.getElementById('prevTitle').textContent = topic || 'Title of Post';
+        }
+
+        function useSuggestion(topic) {
+            document.getElementById('manualTrend').value = topic;
+            updateLivePreview();
+            showToast(`Target acquired: ${topic}`, 'success');
+        }
+
+        function syncManualTrend() {
+            const trend = document.getElementById('trend').value;
+            if (trend) {
+                document.getElementById('manualTrend').value = trend;
+                updateLivePreview();
+            }
+        }
+
+        // Backend Integration
+        async function checkAuth() {
+            try {
+                const res = await fetch('/auth/me', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) currentUser = await res.json();
+                else logout();
+            } catch (err) { logout(); }
+            updateUI();
+        }
+
+        function updateUI() {
+            console.log('Updating UI for user:', currentUser);
+            const container = document.getElementById('navResult');
+            const marketingView = document.getElementById('marketingView');
+            const dashboardView = document.getElementById('dashboardView');
+            const navLinks = document.getElementById('navLinks');
+
+            if (!container || !marketingView || !dashboardView || !navLinks) {
+                console.error('Core UI elements missing from the DOM.');
+                return;
+            }
+
+            if (currentUser) {
+                marketingView.style.display = 'none';
+                dashboardView.style.display = 'grid';
+
+                navLinks.innerHTML = `
+                        <li><a href="#" class="nav-link active" onclick="switchTab('generate')" data-i18n="nav_create">Create</a></li>
+                        <li><a href="#" class="nav-link" onclick="switchTab('history')" data-i18n="nav_vault">Vault</a></li>
+                        <li><a href="#" class="nav-link" onclick="switchTab('pricing')" data-i18n="nav_pricing">PowerUp</a></li>
+                    `;
+
+                const initial = (currentUser.full_name || currentUser.username)[0].toUpperCase();
+                container.innerHTML = `
+                    <div style="display:flex; align-items:center; gap: 15px;">
+                        <div class="glass" style="padding: 5px 15px; border-radius: 50px; font-size: 12px; font-weight: 800; border-color: var(--primary);">
+                            ${currentUser.credits} <span data-i18n="credits_label">CREDITS</span>
+                        </div>
+                        <div style="width:40px; height:40px; border-radius:50%; background: var(--primary); display:flex; align-items:center; justify-content:center; font-weight:800; cursor:pointer;" onclick="showProfile()">
+                            ${initial}
+                        </div>
+                    </div>
+                `;
+            } else {
+                marketingView.style.display = 'block';
+                dashboardView.style.display = 'none';
+
+                navLinks.innerHTML = `
+                        <li><a href="#features" class="nav-link" data-i18n="nav_features">Features</a></li>
+                        <li><a href="#testimonials" class="nav-link" data-i18n="nav_testimonials">Voices</a></li>
+                        <li><a href="#" class="nav-link" onclick="openAuthModal('login')" data-i18n="nav_login_link">Sign In</a></li>
+                    `;
+
+                container.innerHTML = `<button class="btn btn-primary" onclick="openAuthModal('login')" data-i18n="nav_get_started">GET STARTED</button>`;
+            }
+            applyTranslations();
+        }
+
         async function fetchTrends() {
-            const country = document.getElementById('country').value;
-            const trendSelect = document.getElementById('trend');
-            
-            trendSelect.innerHTML = '<option value="">Loading...</option>';
-            
+            showToast('Scanning trends...', 'success');
             try {
                 const res = await fetch('/api/trends', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ country })
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ country: 'UZ' })
                 });
-                
-                const data = await res.json();
-                trendSelect.innerHTML = data.trends.map(t => 
-                    `<option value="${t}">${t}</option>`
-                ).join('');
-                
-                showToast('Trends loaded successfully!', 'success');
-            } catch (err) {
-                showToast('Failed to load trends', 'error');
-                trendSelect.innerHTML = '<option value="">Error</option>';
-            }
+                if (res.ok) {
+                    const data = await res.json();
+                    const select = document.getElementById('trend');
+                    select.innerHTML = '<option value="">Yoki trendlardan tanlang...</option>' +
+                        data.trends.map(t => `<option value="${t}">${t}</option>`).join('');
+                }
+            } catch (err) { showToast('Trend scan failed.', 'error'); }
         }
 
-        // Generate content
-        async function generateContent() {
-            const selectedTrend = document.getElementById('trend').value;
-            const manualTrend = document.getElementById('manualTrend').value;
-            const trend = manualTrend.trim() || selectedTrend;
-            
-            if (!trend) {
-                showToast('Please select or enter a trend', 'error');
-                return;
-            }
-            
-            if (currentUser.credits < 1) {
-                showUpgradeModal();
-                return;
-            }
-            
-            const loading = document.getElementById('loading');
-            const resultCard = document.getElementById('resultCard');
-            
-            loading.classList.add('show');
-            resultCard.classList.remove('show');
-            
+        document.getElementById('generateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return openAuthModal();
+
+            const topic = document.getElementById('manualTrend').value;
+            if (!topic || topic.length < 3) return showToast('Topic is required (min 3 characters).', 'error');
+
+            document.getElementById('loading').style.display = 'block';
+
             try {
                 const res = await fetch('/api/generate', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                     body: JSON.stringify({
-                        topic: trend,
+                        topic,
                         platform: document.getElementById('platform').value,
                         language: document.getElementById('language').value,
                         style: document.getElementById('style').value
                     })
                 });
-                
-                const data = await res.json();
-                
-                // Update UI
-                document.getElementById('resultContent').textContent = data.content;
-                currentContent = data.content;
-                
-                const img = document.getElementById('resultImage');
-                if (data.image_url) {
-                    img.src = data.image_url;
-                    img.style.display = 'block';
-                    currentImageUrl = data.image_url;
-                    console.log('Image URL:', currentImageUrl);
+
+                if (res.ok) {
+                    const data = await res.json();
+                    currentGeneratedContent = data;
+
+                    const titleEl = document.getElementById('prevTitle');
+                    const textEl = document.getElementById('prevText');
+
+                    titleEl.textContent = data.topic;
+                    titleEl.removeAttribute('data-i18n');
+
+                    textEl.textContent = data.content;
+                    textEl.removeAttribute('data-i18n');
+
+                    if (data.image_url) document.getElementById('prevImg').src = data.image_url;
+                    showToast('Synthesis complete.', 'success');
+                    await checkAuth();
+                } else {
+                    const err = await res.json();
+                    showToast(err.detail || 'Synthesis failed.', 'error');
                 }
-                
-                document.getElementById('resultTimestamp').textContent = new Date().toLocaleString();
-                resultCard.classList.add('show');
-                
-                // Update stats
-                currentUser.credits -= 1;
-                currentUser.posts += 1;
-                updateStats();
-                
-                showToast('Content generated successfully!', 'success');
-                
-                // Analytics
-                gtag('event', 'generate_content', {
-                    platform: data.platform,
-                    language: data.language
-                });
-                
-            } catch (err) {
-                showToast('Failed to generate content', 'error');
-            } finally {
-                loading.classList.remove('show');
-            }
-        }
+            } catch (err) { showToast('Connection loss.', 'error'); }
+            finally { document.getElementById('loading').style.display = 'none'; }
+        });
 
-        // Copy content
-        function copyContent() {
-            navigator.clipboard.writeText(currentContent);
-            showToast('Content copied!', 'success');
-        }
-
-        // Download image
-        function downloadImage() {
-            if (!currentImageUrl) return;
-            const a = document.createElement('a');
-            a.href = currentImageUrl;
-            a.download = 'ai-content.jpg';
-            a.click();
-            showToast('Image download started', 'success');
-        }
-
-        // Save to history
-        function saveToHistory() {
-            history.push({
-                content: currentContent,
-                image: currentImageUrl,
-                timestamp: new Date(),
-                platform: document.getElementById('platform').value
-            });
-            showToast('Saved to history!', 'success');
-        }
-
-        // Load history
-        function loadHistory() {
+        async function loadHistory() {
             const grid = document.getElementById('historyGrid');
-            if (history.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; color:#999; padding:40px;">No history yet</p>';
-                return;
-            }
-            
-            grid.innerHTML = history.map((item, i) => `
-                <div class="history-card">
-                    <img src="${item.image}" class="history-image">
-                    <div class="history-content">
-                        <div class="history-meta">${item.timestamp.toLocaleString()}</div>
-                        <div class="history-text">${item.content.substring(0, 100)}...</div>
-                        <div class="history-tags">
-                            <span class="tag">${item.platform}</span>
+            grid.innerHTML = '<div class="spinner"></div>';
+            try {
+                const res = await fetch('/api/history', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (!data.length) return grid.innerHTML = '<p style="text-align:center;" data-i18n="vault_empty">Vault is currently empty.</p>';
+                    grid.innerHTML = data.map(item => `
+                        <div class="glass" style="padding: 20px; border-radius: 20px; display: flex; gap: 20px; cursor: pointer; transition: all 0.3s ease;" onclick='showInPreview(${JSON.stringify(item).replace(/'/g, "&apos;")})'>
+                            <img src="${item.image_url}" style="width: 80px; height: 80px; border-radius:12px; object-fit: cover; border: 1px solid var(--border);">
+                            <div style="flex:1;">
+                                <h4 style="color: var(--primary); margin-bottom: 5px;">${item.topic}</h4>
+                                <p style="font-size: 12px; color: var(--text-dim); margin-bottom: 10px; line-height: 1.4;">${item.content.substring(0, 80)}...</p>
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <span class="chip" style="font-size: 10px; padding: 4px 10px;">${item.platform.toUpperCase()}</span>
+                                    <span style="font-size: 10px; color: var(--text-dim);">${new Date(item.timestamp).toLocaleDateString()}</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            `).join('');
+                    `).join('');
+                    applyTranslations(); // Apply translations to newly added elements
+                }
+            } catch (err) { grid.innerHTML = '<p>Vault access denied.</p>'; }
         }
 
-        // Schedule post
-        function schedulePost() {
-            showToast('Scheduling feature coming soon!', 'success');
-        }
+        function showInPreview(item) {
+            const titleEl = document.getElementById('prevTitle');
+            const textEl = document.getElementById('prevText');
+            const imgEl = document.getElementById('prevImg');
 
-        // Template upload
-        function handleTemplateUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                showToast('Template uploaded!', 'success');
+            titleEl.textContent = item.topic;
+            titleEl.removeAttribute('data-i18n');
+
+            textEl.textContent = item.content;
+            textEl.removeAttribute('data-i18n');
+
+            imgEl.src = item.image_url;
+            currentGeneratedContent = item;
+
+            if (window.innerWidth < 1100) {
+                showToast('Post loaded into preview. Scroll up to see.', 'success');
+            } else {
+                showToast('Asset loaded into preview.', 'success');
             }
         }
 
-        // Update stats
-        function updateStats() {
-            document.getElementById('creditsDisplay').textContent = `${currentUser.credits} Credits`;
-            document.getElementById('totalPosts').textContent = currentUser.posts;
-            document.getElementById('creditsUsed').textContent = 100 - currentUser.credits;
+        // Generic UI Controls
+        function openAuthModal(mode = 'login') {
+            console.log('Opening auth modal in mode:', mode);
+            switchAuth(mode);
+            const modal = document.getElementById('authModal');
+            if (modal) {
+                modal.classList.add('show');
+                console.log('Modal show class added.');
+            } else {
+                console.error('Auth modal element NOT found.');
+            }
+        }
+        function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+        function switchAuth(mode) {
+            document.getElementById('loginForm').style.display = mode === 'login' ? 'block' : 'none';
+            document.getElementById('registerForm').style.display = mode === 'register' ? 'block' : 'none';
+
+            const titleKey = mode === 'login' ? 'modal_welcome' : 'modal_reg_title';
+            const authTitle = document.getElementById('authTitle');
+            if (authTitle) {
+                authTitle.setAttribute('data-i18n', titleKey);
+                authTitle.textContent = translations[currentLang][titleKey] || (mode === 'login' ? 'Welcome Back' : 'Create Identity');
+            }
         }
 
-        // Modal functions
-        function showProfileModal() {
+        function showShowProfile() { /* dummy to fix typo */ }
+        function showProfile() {
+            if (!currentUser) return;
+            document.getElementById('profName').textContent = currentUser.full_name || currentUser.username;
+            document.getElementById('profEmail').textContent = currentUser.email;
+            document.getElementById('profTier').textContent = currentUser.subscription_tier.toUpperCase();
+            document.getElementById('profCredits').textContent = currentUser.credits;
+            document.getElementById('profAvatar').textContent = (currentUser.full_name || currentUser.username)[0].toUpperCase();
             document.getElementById('profileModal').classList.add('show');
         }
 
-        function showUpgradeModal() {
-            document.getElementById('upgradeModal').classList.add('show');
+        async function handleLogin(e) {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('username', document.getElementById('loginUsername').value);
+            formData.append('password', document.getElementById('loginPassword').value);
+            try {
+                const res = await fetch('/auth/login', { method: 'POST', body: formData });
+                if (res.ok) {
+                    const data = await res.json();
+                    token = data.access_token;
+                    localStorage.setItem('auth_token', token);
+                    closeModal('authModal');
+                    await checkAuth();
+                    showToast('Uplink established.', 'success');
+                } else showToast('Authentication failed.', 'error');
+            } catch (err) { showToast('Uplink failed.', 'error'); }
         }
 
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('show');
+        async function handleRegister(e) {
+            e.preventDefault();
+            const payload = {
+                full_name: document.getElementById('regFullName').value,
+                username: document.getElementById('regUsername').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPassword').value
+            };
+            try {
+                const res = await fetch('/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    showToast('Identity created. Initialize login.', 'success');
+                    switchAuth('login');
+                } else {
+                    const err = await res.json();
+                    showToast(err.detail || 'Initialization failed.', 'error');
+                }
+            } catch (err) { showToast('Uplink failed.', 'error'); }
         }
-
-        function upgradeToPro() {
-            showToast}
-('Upgrade feature coming soon!', 'success');
-        
 
         function logout() {
-            showToast('Logout feature coming soon!', 'success');
+            token = null; currentUser = null;
+            localStorage.removeItem('auth_token');
+            updateUI();
+            closeModal('profileModal');
+            showToast('Session terminated.', 'success');
         }
 
-        // Toast notifications
-        function showToast(message, type) {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            toastMessage.textContent = message;
-            toast.className = 'toast show';
-            if (type === 'success') {
-                toast.classList.add('toast-success');
-            } else if (type === 'error') {
-                toast.classList.add('toast-error');
+        async function downloadPostImage() {
+            const img = document.getElementById('prevImg');
+            const url = img.src;
+            if (!url || url.includes('unsplash')) return showToast('No generated media to download.', 'error');
+
+            showToast('Initiating neural download...', 'info');
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const lnk = document.createElement('a');
+                const blobUrl = URL.createObjectURL(blob);
+                lnk.href = blobUrl;
+                lnk.download = `AI_Synthesis_${Date.now()}.png`;
+                document.body.appendChild(lnk);
+                lnk.click();
+                document.body.removeChild(lnk);
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+            } catch (err) {
+                window.open(url, '_blank');
             }
-            setTimeout(() => {
-                toast.className = 'toast';
-            }, 3000);
         }
 
-        // Initial stats update
-        updateStats();
+        function copyPostText() {
+            const text = document.getElementById('prevText').innerText;
+            const defTextUZ = "Yaratilgan kontentingiz bu yerda real vaqtda ko'rinadi...";
+            const defTextEN = "Your generated content will appear here in real-time...";
+
+            if (!text || text === defTextUZ || text === defTextEN) return showToast('No content to copy.', 'error');
+
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Neural string copied to clipboard!', 'success');
+            }).catch(err => {
+                showToast('Clipboard access denied.', 'error');
+            });
+        }
+
+        function showToast(msg, type) {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = msg;
+            t.className = 'toast show ' + (type === 'success' ? 'toast-success' : 'toast-error');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        function scrollToFeatures() {
+            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function publishContent() {
+            if (!currentGeneratedContent) {
+                return showToast('Avval kontent yarating!', 'error');
+            }
+
+            showToast('Integratsiya qilinmoqda...', 'info');
+
+            try {
+                const response = await fetch('/api/platforms/publish', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        content: currentGeneratedContent.content,
+                        platform: currentGeneratedContent.platform
+                    })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    showToast(`${currentGeneratedContent.platform.toUpperCase()} ga muvaffaqiyatli joylandi!`, 'success');
+                } else {
+                    showToast(data.detail || 'Xatolik yuz berdi', 'error');
+                }
+            } catch (error) {
+                showToast('Tarmoq xatosi', 'error');
+            }
+        }
     </script>
+</body>
+
+</html>

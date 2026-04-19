@@ -1,0 +1,53 @@
+AI Trend Content Creator - Loyiha Hujjatlari (doc.txt)
+
+1. LOYIHA HAQIDA UMUMIY MA'LUMOT
+   -----------------------------
+   AI Trend Content Creator - bu trenddagi mavzularni avtomatik aniqlaydigan va ular asosida ijtimoiy tarmoqlar (Instagram, Telegram, Twitter, LinkedIn) uchun sifatli kontent, rasmlar va postlar yaratadigan platforma.
+
+2. QO'LLANILGAN TEXNOLOGIYALAR
+   ---------------------------
+   - Dasturlash tili: Python 3.10+
+   - Web Freymvork: FastAPI (Asinxron ishlash imkoniyati bilan)
+   - Database ORM: SQLAlchemy 2.0
+   - Ma'lumotlar bazasi: 
+     - PostgreSQL (Production uchun)
+     - SQLite (Lokal testlar uchun)
+   - Background Tasks (Fon ishlari): Celery
+   - Task Broker: Redis
+   - Caching (Kesh): Redis
+   - Migratsiyalar: Alembic
+   - Konteynerizatsiya: Docker & Docker Compose
+   - Xavfsizlik: JWT (JSON Web Tokens), OAuth2, Passlib (bcrypt)
+   - Monitoring: Sentry
+
+3. DATABASE MODELLARI
+   ------------------
+   - User: Foydalanuvchi ma'lumotlari, obuna turi, ballar (credits) va profili.
+   - GeneratedPost: Sun'iy intellekt tomonidan yaratilgan postlar, rasm manzillari va metadata.
+   - Template: Foydalanuvchi yuklagan rasm shablonlari.
+   - ScheduledPost: Kelajakda avtomatik nashr qilinishi kerak bo'lgan postlar.
+   - Payment: Tranzaksiyalar va to'lovlar tarixi (Stripe orqali).
+   - Subscription: Faol obunalar va ularning holati.
+   - AnalyticsEvent: Foydalanuvchi harakatlarini tahlil qilish uchun eventlar.
+   - CacheEntry: Ma'lumotlarni vaqtincha saqlash (Redis ishlamasa bazadan foydalanish uchun).
+
+4. AI INTEGRATSIYALARI
+   -------------------
+   - Matn yaratish (Text Generation): 
+     - Groq API (llama-3.1-8b-instant modeli) - bu juda tezkor va sifatli matn yaratish imkonini beradi.
+   - Rasm yaratish (Image Generation): 
+     - Pollinations.ai API - matnli so'rovlar asosida rasmlar yaratish.
+     - Unsplash va Pexels API - tayyor stock rasmlarni qidirish.
+   - Ovozlashtirish (AI Voice): 
+     - AWS Polly integratsiyasi (kelajakda audio kontent uchun).
+   - Trendlarni aniqlash:
+     - Google News RSS integratsiyasi - turli davlatlar (US, UZ, RU, TR) bo'yicha eng dolzarb yangiliklarni olish.
+
+5. INTEGRATSIYA QILINGAN TIZIMLAR
+   -----------------------------
+   - Stripe: Obunalar (subscription) va bir martalik ballarni sotib olish uchun xavfsiz to'lov tizimi.
+   - SendGrid: Foydalanuvchilarga xush kelibsiz xatlari, hisobotlar va ogohlantirishlar yuborish.
+   - AWS S3: Foydalanuvchi fayllari va yaratilgan rasmlarni bulutda saqlash.
+   - Celery & Redis: Postlarni jadval asosida chiqarish va tahliliy hisob-kitoblarni fonda bajarish.
+   - Google News API: Dunyodagi eng yangi trendlarni real vaqt rejimida kuzatish.
+   - Sentry: Xatoliklarni kuzatish va platforma barqarorligini ta'minlash.

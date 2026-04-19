@@ -12,8 +12,10 @@ from sqlalchemy.orm import Session
 from models import User
 from database import get_db
 
+from config import settings
+
 # Configuration
-SECRET_KEY = "your-secret-key-change-this-in-production"
+SECRET_KEY = settings.secret_key
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 REFRESH_TOKEN_EXPIRE_DAYS = 7
@@ -22,7 +24,8 @@ REFRESH_TOKEN_EXPIRE_DAYS = 7
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Security
-security = HTTPBearer()
+from fastapi.security import OAuth2PasswordBearer
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 # ============================================
 # PASSWORD UTILITIES
@@ -74,11 +77,10 @@ def decode_token(token: str) -> dict:
 # ============================================
 
 async def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
 ) -> User:
     """Get current authenticated user"""
-    token = credentials.credentials
     payload = decode_token(token)
     
     user_id: str = payload.get("sub")

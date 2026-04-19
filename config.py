@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     unsplash_access_key: str = ""
     pexels_api_key: str = ""
     polly_api_key: str = ""
+    secret_key: str = "13d7e1f68d15e968a2ab4530b29794b40393d026c10c4402fb"
+    database_url: str = "sqlite:///./content_creator.db"
     
     # Application Settings
     app_name: str = "AI Trend Content Creator"
@@ -41,7 +43,7 @@ class Settings(BaseSettings):
     requests_per_minute: int = 10
     
     # Supported Platforms and Languages
-    supported_platforms: List[str] = ["instagram", "telegram", "twitter"]
+    supported_platforms: List[str] = ["instagram", "telegram", "twitter", "linkedin"]
     supported_languages: List[str] = ["en", "uz", "ru"]
     supported_countries: List[str] = ["US", "GB", "UZ", "RU", "TR"]
     
@@ -69,6 +71,12 @@ PLATFORM_CONFIG: Dict[str, Dict] = {
         "hashtag_count": "2-3",
         "emojis": False,
         "format": "punchy"
+    },
+    "linkedin": {
+        "max_chars": 500,
+        "hashtag_count": "3-5",
+        "emojis": True,
+        "format": "professional"
     }
 }
 
@@ -122,6 +130,11 @@ PROMPT_TEMPLATES: Dict[str, Dict[str, str]] = {
         "en": "Create a viral tweet about '{topic}'. Maximum {max_chars} characters. Include {hashtag_count} hashtags. Be punchy and engaging!",
         "uz": "'{topic}' haqida viral tweet yozing. Maksimum {max_chars} belgi. {hashtag_count} ta hashtag qo'shing. Qisqa va ta'sirchan!",
         "ru": "Создайте вирусный твит о '{topic}'. Максимум {max_chars} символов. Добавьте {hashtag_count} хэштега. Кратко и эффектно!"
+    },
+    "linkedin": {
+        "en": "Write a professional LinkedIn post about '{topic}'. Maximum {max_chars} characters. Use {hashtag_count} hashtags. Focus on industry insights and professional tone.",
+        "uz": "'{topic}' haqida professional LinkedIn post yozing. Maksimum {max_chars} belgi. {hashtag_count} ta hashtag ishlating. Professional ohangda bo'lsin.",
+        "ru": "Напишите профессиональный пост для LinkedIn о '{topic}'. Максимум {max_chars} символов. Используйте {hashtag_count} хэштегов. Тон должен быть деловым."
     }
 }
 

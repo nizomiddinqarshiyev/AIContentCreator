@@ -7,19 +7,29 @@ from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import StaticPool
 import os
 
-# Database URL from environment
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql://user:password@localhost:5432/ai_content_db"
-)
+# Database URL from settings
+from config import settings
+DATABASE_URL = settings.database_url
 
 # Create engine
+connect_args = {}
+engine_args = {
+    "pool_pre_ping": True,
+    "echo": settings.debug
+}
+
+if "sqlite" in DATABASE_URL:
+    connect_args["check_same_thread"] = False
+    from sqlalchemy.pool import StaticPool
+    engine_args["poolclass"] = StaticPool
+else:
+    engine_args["pool_size"] = 10
+    engine_args["max_overflow"] = 20
+
 engine = create_engine(
     DATABASE_URL,
-    pool_pre_ping=True,
-    pool_size=10,
-    max_overflow=20,
-    echo=os.getenv("DB_ECHO", "false").lower() == "true"
+    connect_args=connect_args,
+    **engine_args
 )
 
 # Session factory
