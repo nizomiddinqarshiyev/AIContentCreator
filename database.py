@@ -55,13 +55,13 @@ def init_db():
     """Initialize database tables"""
     from models import Base
     Base.metadata.create_all(bind=engine)
-    print("✅ Database tables created")
+    print("[OK] Database tables created")
 
 def drop_db():
     """Drop all database tables"""
     from models import Base
     Base.metadata.drop_all(bind=engine)
-    print("🗑️ Database tables dropped")
+    print("[DELETE] Database tables dropped")
 
 # ============================================
 # REDIS CACHE
@@ -80,10 +80,10 @@ class RedisCache:
             self.client = redis.from_url(redis_url, decode_responses=True)
             self.client.ping()
             self.enabled = True
-            print("✅ Redis connected")
+            print("[OK] Redis connected")
         except:
             self.enabled = False
-            print("⚠️ Redis not available, using database cache")
+            print("[WARNING] Redis not available, using database cache")
     
     def get(self, key: str) -> Optional[str]:
         """Get value from cache"""

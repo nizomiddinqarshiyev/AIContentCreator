@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException, Request
+from contextlib import asynccontextmanager
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from typing import List, Literal, Optional
 from datetime import datetime, timedelta
 from fastapi import FastAPI, HTTPException, Request, Depends, status
@@ -24,10 +25,29 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from fastapi import Depends, status
 
+startup_time = datetime.now()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Lifecycle events manager"""
+    # Startup
+    init_db()  # Initialize database tables
+    logger.log_request("STARTUP", "system", {"version": settings.app_version})
+    print(f"[STARTUP] {settings.app_name} v{settings.app_version} started")
+    print(f"[NETWORK] Server running on {settings.host}:{settings.port}")
+    print(f"[CONFIG] Debug mode: {settings.debug}")
+    
+    yield
+    
+    # Shutdown
+    logger.log_request("SHUTDOWN", "system", {})
+    print("[SHUTDOWN] Application shutting down...")
+
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
-    description="AI-powered social media content generator from trending topics"
+    description="AI-powered social media content generator from trending topics",
+    lifespan=lifespan
 )
 
 app.add_middleware(
@@ -47,7 +67,8 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 class TrendRequest(BaseModel):
     country: str = Field(default="US", description="Country code (US, GB, UZ, RU, TR)")
     
-    @validator('country')
+    @field_validator('country')
+    @classmethod
     def validate_country(cls, v):
         if v not in settings.supported_countries:
             raise ValueError(f"Country must be one of: {settings.supported_countries}")
@@ -99,7 +120,7 @@ class UserResponse(BaseModel):
     credits: int
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class Token(BaseModel):
     access_token: str
@@ -108,27 +129,6 @@ class Token(BaseModel):
 class UpgradeRequest(BaseModel):
     plan_type: Literal["pro_monthly", "pro_yearly"] = "pro_monthly"
 
-
-# ============================================
-# STARTUP & SHUTDOWN
-# ============================================
-
-startup_time = datetime.now()
-
-@app.on_event("startup")
-async def startup_event():
-    """Initialize application"""
-    init_db()  # Initialize database tables
-    logger.log_request("STARTUP", "system", {"version": settings.app_version})
-    print(f"🚀 {settings.app_name} v{settings.app_version} started")
-    print(f"📡 Server running on {settings.host}:{settings.port}")
-    print(f"🔧 Debug mode: {settings.debug}")
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    """Cleanup on shutdown"""
-    logger.log_request("SHUTDOWN", "system", {})
-    print("👋 Application shutting down...")
 
 # ============================================
 # MIDDLEWARE
@@ -356,11 +356,17 @@ async def generate_content(request: ContentRequest, client_request: Request, cur
             )
             
             if response.status_code != 200:
-                logger.log_error(Exception("AI API error"), "generate_content")
-                raise HTTPException(status_code=500, detail="AI API error")
+                print(f"[ERROR] Groq API returned {response.status_code}: {response.text}")
+                logger.log_error(Exception(f"AI API error: {response.status_code}"), "generate_content")
+                raise HTTPException(status_code=500, detail=f"AI API error: {response.status_code}")
             
             data = response.json()
+            if "choices" not in data or not data["choices"]:
+                print(f"[ERROR] Invalid Groq response: {data}")
+                raise HTTPException(status_code=500, detail="Invalid AI response format")
+                
             content = data["choices"][0]["message"]["content"].strip()
+            print(f"[DEBUG] Content generated: {len(content)} chars")
             
             # Validate generated content
             content = content_validator.sanitize_text(content)
